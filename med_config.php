@@ -35,7 +35,7 @@
 	define('MSG_LOGIN_ID','suiterx2$ure$cript$');
 	define('MSG_PASSWORD','e$crips23*$df%3acc');	
 	
-	define('SS_PEM_FILE','C:/UniServerZ/www/surescripts/certs/ss_2020.pem');
+	define('SS_PEM_FILE', WEB_ROOT . 'certs/ss_2020.pem');
 	define('SS_PEM_PASSWORD','rivercity#2020');
 	
 	define('MSG_URL','https://messaging.surescripts.net/SuiteRxpharmacy106x/AuthenticatingXmlServer.aspx');
