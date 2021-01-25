@@ -10,11 +10,8 @@ $medDB->debug	=	false;
 
 try
 {
-	
-	
-	// $medDB->Connect('ipssurescript.ctpjxvfogk4x.us-east-1.rds.amazonaws.com','meditab','m3dih2so4','meditab_server_106');
-	$medDB->Connect('localhost','root','root','meditab_server_106');
-	$medDB->fetchMode	=	ADODB_FETCH_ASSOC;
+	$medDB->Connect('aa70vm6lip8c08.c8ttplenlxn1.ap-southeast-1.rds.amazonaws.com', 'ss2017staging', 'ss2017staging12345', 'meditab_server_106');
+	$medDB->fetchMode =	ADODB_FETCH_ASSOC;
 }
 catch (Exception $e)
 {

@@ -14,17 +14,17 @@ define("DATABASE_TYPE","mysqli");
 
 
 // define("DB_USERNAME","meditab");
-define("DB_USERNAME","root");
+define("DB_USERNAME","ss2017staging");
 
 
 
 // define("DB_PASSWORD","m3dih2so4");
-define("DB_PASSWORD","root");
+define("DB_PASSWORD","ss2017staging12345");
 
 
 
 // define("DB_HOST","ipssurescript.ctpjxvfogk4x.us-east-1.rds.amazonaws.com");
-define("DB_HOST","localhost");
+define("DB_HOST","aa70vm6lip8c08.c8ttplenlxn1.ap-southeast-1.rds.amazonaws.com");
 
 
 define("DSN_MEM","meditab_server_106");
