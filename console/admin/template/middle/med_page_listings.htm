@@ -1,0 +1,45 @@
+<form name="frm_page_listings" id="frm_page_listings" method="post" action="index.php">
+  <input type="hidden" name="file" id="file"  value="{$strFile}">
+  <input type="hidden" name="hid_button_id" id="hid_button_id"  value="">
+  <input type="hidden" name="hid_table_id" id="hid_table_id"  value="{$intTableId}">
+  <input type="hidden" name="hidin_module_id" id="hidin_module_id" value="{$intModuleId}" />
+  <input type="hidden" name="hid_page_type" id="hid_page_type" value="{$strPageType}" />
+  <input type="hidden" name="med_delete_url" id="med_delete_url" value="med_page_add_action" />
+  <input type="hidden" name="hid_max_row_limit" id="hid_max_row_limit" value="{$intShowMaxRows}" />
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab-bor">
+    <tr>
+      <td align="left" height="24" colspan="2"><img src="images/orange-sarrow.gif" width="9" height="9" hspace="4" /> <font class="bold-text">{$strModuleName}</font></td>
+    </tr>
+    <tr>
+      <td height="1" class="blue-bg" colspan="2"></td>
+    </tr>
+    <tr>
+      <td height="1" colspan="2">&nbsp;</td>
+    </tr>
+    <tr>
+      <td height="1" colspan="2" align="right"><font class="blue-text-bold-01">Show:</font>&nbsp;{$strShowRows} row(s) <font class="blue-text-bold-01">Search:</font>&nbsp;{$strSearch}&nbsp;
+        <input name="btn_submit" value="Search" class="btn" type="submit" onclick='return submitSearchForm(this.form);'>
+      </td>
+    </tr>
+    { if (!empty($strMessage))}
+    <tr>
+      <td colspan="2" height="25"  class="error-normal" align="center" valign="middle">{$strMessage}</td>
+    </tr>
+    {/if}
+    <tr>
+      <td height="2" colspan="2"></td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center">{$strPage}</td>
+    </tr>
+  </table>
+</form>
+{literal}
+<script>
+function extraSearchValid()
+{
+	if(checkRowLimit(document.getElementById("Sr_Intxt_show_rows"),document.getElementById("hid_max_row_limit").value) == false)
+		return false;
+}
+</script>
+{/literal}

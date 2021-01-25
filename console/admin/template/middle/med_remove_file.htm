@@ -1,0 +1,69 @@
+{literal}
+<script>
+	function removeFile(divId)
+	{
+		strDivId="div_"+divId;
+		opener.document.getElementById(strDivId).innerHTML="";
+		window.close();
+	}
+</script>
+{/literal}
+<link href="./images/med_style.css" rel="stylesheet" type="text/css" />
+<form name="" method="post" action="">
+	 <input type="hidden" name="divid" value="{$strDivId}">
+	 <input type="hidden" name="strAction" value="Yes">
+	 <input type="hidden" name="intId" value="{$intId}">
+	 <input type="hidden" name="imgtype" value="{$strImgType}">
+	 <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+	  <tr valign="middle">
+	    <td valign="middle"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+	      <tr>
+	        <td align="left"><table width="99%" border="0" cellspacing="0" cellpadding="0">
+	          <tr>
+	            <td width="115">&nbsp;</td>
+	            <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+	              <tr>
+	                <td height="16">&nbsp;</td>
+	              </tr>	         
+	            </table></td>
+	            <td width="10"></td>
+	          </tr>
+	        </table>          </td>
+	      </tr>
+	      <tr>
+	        <td align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+	          <tr>
+	            <td width="6" class="bg-cor-topleft" height="6"></td>
+	            <td class="bg-cor-topmiddle" height="6" align="center" >&nbsp;</td>
+	            <td width="9"  class="bg-cor-topright" height="6"></td>
+	          </tr>
+	          <tr>
+	            <td class="bg-cor-midleft" width="6"></td>
+	            {if (empty($strAction)) } 	
+		            <td  valign="middle" align="center" height="100"><p>Do you want to remove <b>{$strFileName}</b> file ?</p>
+		            	{$strMessage}
+		            <p>
+									  <input type="button" name="btn" value="Ok" onClick="this.form.submit();">
+									  <input type="button" name="btn" value="Cancel" onClick="window.close();">
+							  </p>
+						  {else}
+							 	<td  valign="middle" align="center" height="100"><p>File has been removed..</p>
+		            <p>
+									  <input type="button" name="btn" value="Close" onClick="removeFile('{$strDivId}');">
+							  </p>
+						  {/if}
+				  </td>
+	            <td class="bg-cor-midright" width="9"></td>
+	          </tr>
+	          <tr>
+	            <td width="6" height="25" class="bg-cor-botleft"></td>
+	            <td align="left" valign="top" class="bg-cor-botmiddle">&nbsp;</td>
+	            <td width="9" class="bg-cor-botright">&nbsp;</td>
+	          </tr>
+	        </table></td>
+	      </tr>
+	    </table>
+	      </td>
+	  </tr>
+	</table>
+</form>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Message xmlns="http://www.surescripts.com/messaging"  version="004" release="004">
+<Header>
+<To>mailto:SSSDIR.dp@surescripts.com</To>
+<From>mailto:MEDTAB.dp@surescripts.com</From>
+<MessageID>MTI143</MessageID>
+<SentTime>2013-02-09T11:40:38.3Z</SentTime>
+<Security>
+<UsernameToken>
+<Username>suiterx</Username>
+<Password Type="PasswordDigest">IF0mEx6JpMJf9KNZaZ6gq84cBg8=</Password>
+<Nonce>143</Nonce>
+<Created>2013-02-09T11:40:38.3Z</Created>
+</UsernameToken>
+</Security>
+</Header>
+<Body>
+<DirectoryDownload>
+<AccountID>512</AccountID>
+<VersionID>4.4</VersionID>
+<Taxonomy>
+<TaxonomyCode>193200000X</TaxonomyCode>
+</Taxonomy>
+</DirectoryDownload></Body>
+</Message>https://staging.surescripts.net/SuiteRxTest106/DirectoryXmlServer.aspx

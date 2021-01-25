@@ -1,0 +1,1 @@
+php C:/UniServerZ/www/surescripts/cron/directory_download_prescriber_full.php

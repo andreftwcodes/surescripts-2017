@@ -1,0 +1,51 @@
+<form name="frm_page_fields_listings" id="frm_page_fields_listings" method="post" action="index.php">
+<input type="hidden" name="file" id="file"  value="med_page_fields_listings">
+<input type="hidden" name="hid_button_id" id="hid_button_id"  value="">
+<input type="hidden" name="hid_table_id" id="hid_table_id"  value="{$intTableId}">
+<input type="hidden" name="hidin_module_id" id="hidin_module_id" value="{$intModuleId}" />
+<input type="hidden" name="hid_page_type" id="hid_page_type" value="{$strPageType}" />
+<input type="hidden" name="parent_id" id="parent_id" value="{$intParentId}" />
+<input type="hidden" name="med_delete_url" id="med_delete_url" value="med_page_fields_listings" />
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab-bor">
+	<tr>
+    <td align="left" height="24" width="45%"><img src="images/orange-sarrow.gif" width="9" height="9" hspace="4" /><span class="bold-text"><span onclick="gotoPageSetting();">Page Settings:</span>&nbsp;{$strModuleName}<span></td>
+	<td width="49%" align="right" height="24"><a href="index.php?file=med_page_listings&hid_page_type=L&hidin_module_id=0"> All Tables</a>&nbsp;|
+	<a href="index.php?file=med_page_add&hidin_module_id=0&table_id={$intTableId}&hid_table_id={$intTableId}&parent_id={$intParentId}&hid_page_type=E">View Table</a>&nbsp;|
+	  <a href="index.php?file=med_page_multi_list&hid_page_type=L&hid_table_id={$intTableId}&parent_id={$intParentId}&hidin_module_id=0&strLeftId={$strLeftId}">View Multi</a>&nbsp;|
+      <span class="gray-text">View Fields</span>&nbsp;|
+      <a href="index.php?file=med_page_buttons_listings&hid_page_type=L&hid_table_id={$intTableId}&parent_id={$intParentId}&hidin_module_id=0&strLeftId={$strLeftId}">View Buttons</a>&nbsp;|
+	  <a href="index.php?file=med_page_search_listings&hid_page_type=L&hid_table_id={$intTableId}&parent_id={$intParentId}&hidin_module_id=0&strLeftId={$strLeftId}">View Search</a>	  </td>
+      <td width="6%" align="right"><img src="images/dot-back-arrow.gif" width="5" height="9" hspace="5" /><a href="javascript:history.back();">Back</a>&nbsp;</td>
+  </tr>
+	 <tr>
+		<td height="1" class="blue-bg" colspan="3"></td>
+	  </tr>
+    { if (!empty($strMessage))}
+	<tr>
+		<td colspan="3" height="25"  class="error-normal" align="center" valign="middle">{$strMessage}</td>
+	</tr>
+	{/if}
+	<tr>
+	  <td height="2" colspan="3" align="right">&nbsp;</td>
+	</tr>
+	<tr>
+	  <td height="2" colspan="3" align="right">
+	  <table cellpadding="1" cellspacing="1" border="0">
+		<tr>
+		<td valign="top">{$strFieldListCombo}</td>
+		<td><input type='submit' name=btn1 value='Go'  class='btn'  ></td>
+		<td class="blue-text-bold-01">{$Sr_LBL_table_list}</td>
+		<td>{$Sr_strtable_list}</td>
+		<td><input type='button' name=btn1 value='Copy' onClick="doAction(this,'list2','1011:C:0:med_page_fields_listings',1,'Are you sure want to Copy?')" class='btn'  ></td>
+		</tr>
+		</table>
+	  </td>
+	</tr>
+	<tr>
+	  <td height="2" colspan="3" align="right">&nbsp;</td>
+	</tr>
+	<tr>
+	  <td colspan="3" align="center">{$strPage}</td>
+	</tr>
+</table>
+</form>

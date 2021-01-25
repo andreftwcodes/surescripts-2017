@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+ * FCKeditor - The text editor for internet
+ * Copyright (C) 2003-2005 Frederico Caldeira Knabben
+ * 
+ * Licensed under the terms of the GNU Lesser General Public License:
+ * 		http://www.opensource.org/licenses/lgpl-license.php
+ * 
+ * For further information visit:
+ * 		http://www.fckeditor.net/
+ * 
+ * "Support Open Source software. What about a donation today?"
+ * 
+ * File Name: fckstyles.xml
+ * 	This is the sample style definitions file. It makes the styles combo
+ * 	completely customizable.
+ * 	See FCKConfig.StylesXmlPath in the configuration file.
+ * 
+ * File Authors:
+ * 		Frederico Caldeira Knabben (fredck@fckeditor.net)
+-->
+<Styles>
+	<Style name="title" element="font">
+		<Attribute name="class" value="title" />
+	</Style>
+	<Style name="subtitle" element="font">
+		<Attribute name="class" value="subtitle" />
+	</Style>
+	<Style name="description-reg" element="font">
+		<Attribute name="class" value="description-reg" />
+	</Style>
+	<Style name="description-bold" element="font">
+		<Attribute name="class" value="description-bold" />
+	</Style>
+	<Style name="description-uline" element="font">
+		<Attribute name="class" value="description-uline" />
+	</Style>
+	<Style name="Bullet list reg" element="font">
+		<Attribute name="class" value="bullet-reg" />
+	</Style>
+	<Style name="Bullet list Bold" element="font">
+		<Attribute name="class" value="bullet-bold" />
+	</Style>
+	<Style name="Note-heading" element="font">
+		<Attribute name="class" value="note-hd" />
+	</Style>	
+
+	<Style name="Note-bold" element="font">
+		<Attribute name="class" value="note-bold" />
+	</Style>
+	<Style name="Note-description" element="font">
+		<Attribute name="class" value="note-description" />
+	</Style>
+	<Style name="Note-Bullet" element="font">
+		<Attribute name="class" value="note-bullet" />
+	</Style>
+	<Style name="Path" element="font">
+		<Attribute name="class" value="path" />
+	</Style>	
+	<Style name="Key" element="font">
+		<Attribute name="class" value="key" />
+	</Style>	
+	<Style name="example-hd" element="font">
+		<Attribute name="class" value="example-hd" />
+	</Style>	
+	<Style name="example-bold" element="font">
+		<Attribute name="class" value="example-bold" />
+	</Style>
+	<Style name="example-description" element="font">
+		<Attribute name="class" value="example-description" />
+	</Style>	
+	<Style name="example-bullet" element="font">
+		<Attribute name="class" value="example-bullet" />
+	</Style>
+	<Style name="Search-Symbol" element="span">
+		<Attribute name="class" value="searchsymbol" />
+	</Style>
+	<Style name="greentemp" element="font">
+		<Attribute name="class" value="greentemp" />
+	</Style>
+</Styles>

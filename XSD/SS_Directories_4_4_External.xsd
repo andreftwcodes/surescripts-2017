@@ -1,0 +1,953 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- edited with XMLSpy v2008 (http://www.altova.com) by Tim McNeil (Surescripts, LLC) -->
+<!--
+Changed specialty codes to use the 4.0 list which matches IG
+Added PharmacyDirectoryInformationType to make SpecialtyID mandatory
+Removed unused data types
+Changed Prescriber and Pharmacy to be optional on GetProvdierResponse - for denied responses
+Removed PasswordType attribute
+Removed HighestSupportedVersion and added release attribute to Message
+
+Last updated 10/29/2010 
+-->
+<xs:schema xmlns="http://www.surescripts.com/messaging" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.surescripts.com/messaging" elementFormDefault="qualified">
+	<!-- Message -->
+	<xs:element name="Message" type="MessageType"/>
+	<xs:complexType name="MessageType">
+		<xs:sequence>
+			<xs:element name="Header" type="HeaderType"/>
+			<xs:element name="Body" type="BodyType"/>
+		</xs:sequence>
+		<xs:attribute name="version" type="an..3M" use="required" fixed="004"/>
+		<xs:attribute name="release" type="an..3M" use="required" fixed="004"/>
+	</xs:complexType>
+	<!-- Header -->
+	<xs:complexType name="HeaderType">
+		<xs:sequence>
+			<xs:element name="To" type="MailAddressType"/>
+			<xs:element name="From" type="MailAddressType"/>
+			<xs:element name="MessageID" type="an..35M"/>
+			<xs:element name="RelatesToMessageID" type="an..35" minOccurs="0"/>
+			<xs:element name="SentTime" type="UtcDateType"/>
+			<xs:element name="Security" type="SecurityType" minOccurs="0"/>
+			<xs:element name="SMSVersion" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="4.4"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AppVersion" type="AppVersionType" minOccurs="0"/>
+			<xs:element name="Mailbox" type="MailboxType" minOccurs="0"/>
+			<xs:element name="TestMessage" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TertiaryIdentifier" type="an..3" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- App Version Type-->
+	<xs:complexType name="AppVersionType">
+		<xs:sequence>
+			<xs:element name="VendorName" type="an..35M"/>
+			<xs:element name="AppName" type="an..35M"/>
+			<xs:element name="ApplicationVersion" type="an..35M"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DeniedType">
+		<xs:sequence>
+			<xs:element name="DenialReasonCode" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="AA|AB|AC|AD|AE|AF|AG|AH|AJ|AK|AL|AM|AN|AO|AP"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ReferenceNumber" type="an..35" minOccurs="0"/>
+			<xs:element name="DenialReason" type="an..70" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- Security Type-->
+	<xs:complexType name="SecurityType">
+		<xs:sequence>
+			<xs:element name="UsernameToken" type="UsernameTokenType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="UsernameTokenType">
+		<xs:sequence>
+			<xs:element name="Username" type="an..35"/>
+			<xs:element name="Password" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Base64 encoded, SHA1 hash of the UTF-16 encoded upper-cased password</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Nonce" type="an..35" minOccurs="0"/>
+			<xs:element name="Created" type="UtcDateType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PasswordRequestType">
+		<xs:choice>
+			<!--REQ.3-->
+			<xs:element name="OldPassword" type="an..35"/>
+			<!--REQ.4-->
+			<xs:element name="NewPassword" type="an..35"/>
+		</xs:choice>
+	</xs:complexType>
+	<!-- Body -->
+	<xs:complexType name="BodyType">
+		<xs:choice>
+			<xs:element ref="DirectoryDownload"/>
+			<xs:element ref="DirectoryDownloadResponse"/>
+			<xs:element ref="AddPharmacy"/>
+			<xs:element ref="UpdatePharmacy"/>
+			<xs:element ref="AddPrescriber"/>
+			<xs:element ref="UpdatePrescriber"/>
+			<xs:element ref="AddPrescriberResponse"/>
+			<xs:element ref="AddPrescriberLocation"/>
+			<xs:element ref="UpdatePrescriberLocation"/>
+			<xs:element ref="AddPrescriberLocationResponse"/>
+			<xs:element ref="AddProvider"/>
+			<xs:element ref="UpdateProvider"/>
+			<xs:element ref="GetPrescriber"/>
+			<xs:element ref="GetPrescriberResponse"/>
+			<xs:element ref="GetPharmacy"/>
+			<xs:element ref="GetPharmacyResponse"/>
+			<xs:element ref="GetProvider"/>
+			<xs:element ref="GetProviderResponse"/>
+			<xs:element ref="SetMailbox"/>
+			<xs:element ref="SetMailboxResponse"/>
+			<xs:element ref="Status"/>
+			<xs:element ref="Error"/>
+		</xs:choice>
+	</xs:complexType>
+	<!--mailboxing-->
+	<xs:element name="SetMailbox">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="UserID" type="an..35M"/>
+				<xs:element name="MailboxUsername" type="an..35"/>
+				<xs:element name="MailboxPassword" type="an..35"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SetMailboxResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Response" type="SetMailboxResponseType"/>
+				<xs:element name="UserID" type="an..35M"/>
+				<xs:element name="MailboxID" type="an..35"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="SetMailboxResponseType">
+		<xs:choice>
+			<xs:element name="MailboxAdded" type="MailboxAddedType" minOccurs="0"/>
+			<xs:element name="MailboxUpdated" type="MailboxUpdatedType" minOccurs="0"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="MailboxAddedType">
+		<xs:sequence>
+			<xs:element name="Note" type="an..70" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MailboxUpdatedType">
+		<xs:sequence>
+			<xs:element name="Note" type="an..70" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MailboxType">
+		<xs:sequence>
+			<xs:element name="MailboxID" type="an..35" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Trading Partner Defined </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DeliveredID" type="an..35" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>UIH-030-2 Initiator reference identifier	This field may be used as a trace number between trading partners.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AdditionalTraceNumber" type="an..3" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>UIH-030-3 Controlling Agency, Coded 	This field may be used as a trace number between trading partners.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AcknowledgementID" type="an..35" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>UIH-030-4 Responder control reference	 This field may be used as a trace number between trading partners.	For RESUPP – In the LTC environment this is the prescription number assigned by the facility.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!--end of mailboxing-->
+	<!-- Added to seperate out Directory Response Type -->
+	<xs:complexType name="ResponseTypeDir">
+		<xs:choice>
+			<xs:element name="Approved" type="ApprovedDir"/>
+			<xs:element name="Denied" type="DeniedType"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="ApprovedDir">
+		<xs:sequence>
+			<xs:element name="ApprovalReasonCode" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="AQ"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Note" type="an..70" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- Message Types -->
+	<xs:element name="RequestReferenceNumber" type="an..35"/>
+	<xs:element name="DirectoryDownload">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="AccountID" type="an..35"/>
+				<xs:element name="VersionID" type="an..10" minOccurs="0"/>
+				<xs:element name="Taxonomy" type="TaxonomyType"/>
+				<xs:element name="DirectoryDate" type="DateType" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:group name="NightlyDownloadType">
+		<xs:sequence>
+			<xs:element name="NightlyDownload" fixed="NightlyDownload"/>
+			<xs:element name="ReportDate" type="DateType"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:element name="DirectoryDownloadResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="URL" type="an..210"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="GetPharmacy">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="NCPDPID" type="an..7M"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="GetPharmacyResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Pharmacy" type="DirectoryPharmacyType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="GetPrescriber">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="SPI" type="an..13M"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="GetPrescriberResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Prescriber" type="DirectoryPrescriberType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AddPharmacy">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Pharmacy" type="DirectoryPharmacyType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="UpdatePharmacy">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Pharmacy" type="DirectoryPharmacyType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AddPrescriber">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Prescriber" type="DirectoryPrescriberType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- AddPrescriberResponse will contain the SureScripts generated Full SPI -->
+	<xs:element name="AddPrescriberResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Response" type="ResponseTypeDir"/>
+				<xs:element name="Prescriber" type="DirectoryPrescriberType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AddPrescriberLocation">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Prescriber" type="DirectoryPrescriberType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- AddPrescriberLocationResponse will contain the SureScripts generated Full SPILocation -->
+	<xs:element name="AddPrescriberLocationResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Response" type="ResponseTypeDir"/>
+				<xs:element name="Prescriber" type="DirectoryPrescriberType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="UpdatePrescriber">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Prescriber" type="DirectoryPrescriberType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="UpdatePrescriberLocation">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Prescriber" type="DirectoryPrescriberType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!--Provider-based messages-->
+	<xs:element name="GetProvider">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Provider" type="SearchDirectoryProviderType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="GetProviderResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Response" type="ResponseTypeDir"/>
+				<xs:choice minOccurs="0">
+					<xs:element name="Prescriber" type="DirectoryPrescriberType" maxOccurs="500"/>
+					<xs:element name="Pharmacy" type="DirectoryPharmacyType" maxOccurs="500"/>
+				</xs:choice>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AddProvider">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="DataProvider" type="DirectoryDataProviderType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="UpdateProvider">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="DataProvider" type="DirectoryDataProviderType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- begin regular message types -->
+	<xs:element name="Status">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Code">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:pattern value="000|010|002|003|005|010"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="DescriptionCode" type="an..3" minOccurs="0"/>
+				<xs:element name="Description" type="an..70" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Error">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Code">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:pattern value="600|601|602|900"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="DescriptionCode" type="an..3" minOccurs="0"/>
+				<xs:element name="Description" type="an..70" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="DirectoryPharmacyType">
+		<xs:sequence>
+			<xs:element name="DirectoryInformation" type="PharmacyDirectoryInformationType"/>
+			<xs:element name="Identification" type="DirectoryPharmacyIDType"/>
+			<xs:element name="StoreName" type="an..35M"/>
+			<xs:element name="StoreNumber" type="an..35" minOccurs="0"/>
+			<xs:element name="Pharmacist" type="DirectoryNameType" minOccurs="0"/>
+			<xs:element name="PharmacistAgent" type="DirectoryNameType" minOccurs="0"/>
+			<xs:element name="Address" type="MandatoryAddressType" minOccurs="0"/>
+			<xs:element name="TwentyFourHourFlag" type="TwentyFourHourFlagType" minOccurs="0"/>
+			<xs:element name="CrossStreet" type="an..35" minOccurs="0"/>
+			<xs:element name="Email" type="an..80" minOccurs="0"/>
+			<xs:element name="PhoneNumbers" type="PhoneNumbersType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- Prescriber -->
+	<xs:complexType name="DirectoryPrescriberType">
+		<xs:sequence>
+			<xs:element name="DirectoryInformation" type="PrescriberDirectoryInformationType"/>
+			<xs:element name="Identification" type="DirectoryPrescriberIDType"/>
+			<xs:element name="ClinicName" type="an..35" minOccurs="0"/>
+			<xs:element name="Name" type="DirectoryNameType"/>
+			<xs:element name="Specialty" type="SpecialtyType" minOccurs="0"/>
+			<xs:element name="Address" type="MandatoryAddressType" minOccurs="0"/>
+			<xs:element name="Email" type="an..80" minOccurs="0"/>
+			<xs:element name="PhoneNumbers" type="PhoneNumbersType"/>
+			<xs:element name="DEAAuthorizingName" type="an..35M" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- Data Provider Type-->
+	<xs:complexType name="DirectoryDataProviderType">
+		<xs:sequence>
+			<xs:element name="DirectoryInformation" type="DataProviderDirectoryInformationType" minOccurs="0"/>
+			<xs:element name="Identification" type="DataProviderIDType"/>
+			<xs:element name="Description" type="an..255M"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DataProviderIDType">
+		<xs:choice>
+			<xs:element name="ProviderUID" type="an..6M"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="SpecialtyType">
+		<xs:sequence>
+			<xs:element name="Qualifier">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="AM"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SpecialtyCode">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="AS|ADM|ADP|AMI|ADL|OAR|AM|A|AI|PTH|ATP|AN|BBK|CTS|CD|PCH|CHP|CHN|PLI|DDL|ALI|ILI|CBG|ICE|CCG|CG|CMG|CN|CLP|PA|CRS|CCA|CCM|NCC|OCC|PCP|DS|D|DMP|DIA|DR|EM|END|EP|FPS|FP|OFA|FOP|PFP|GE|GP|GPM|GS|FPG|IMG|PYG|GO|GYN|HS|HNS|HEM|HMP|HO|HEP|IG|PIP|ID|IM|MPD|LM|MFM|MXR|MG|MDM|MM|ON|ETX|PDT|PTX|OMO|NPM|NEP|NS|N|NRN|NP|RNR|NM|NR|NTR|OBS|OBG|OM|OPH|ORS|OSS|OTR|OMM|OS|OTO|OT|APM|PMD|PLM|PDA|PDC|CCP|PE|PEM|PDE|PG|PHO|PDI|PN|PO|OP|PDO|PP|PDP|PDR|PPR|NSP|PDS|UP|PD|PM|PS|PRO|P|PYA|MPH|PUD|PCC|RO|RIP|RP|R|REN|RHU|SP|SM|SCI|ESM|FSM|ISM|OSM|PSM|CCS|SO|TTS|TRS|UM|US|U|VIR|VS"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- Provider Element -->
+	<xs:complexType name="DirectoryProviderType">
+		<xs:sequence>
+			<xs:element name="DirectoryInformation" type="PrescriberDirectoryInformationType"/>
+			<xs:element name="Taxonomy" type="TaxonomyType"/>
+			<xs:element name="Identification" type="IdentificationType"/>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="OrganizationName" type="an..35"/>
+					<xs:element name="Name" type="DirectoryNameType" minOccurs="0"/>
+				</xs:sequence>
+				<xs:sequence>
+					<xs:element name="Name" type="DirectoryNameType"/>
+				</xs:sequence>
+			</xs:choice>
+			<xs:element name="Address" type="AddressType" minOccurs="0"/>
+			<xs:element name="Email" type="an..80" minOccurs="0"/>
+			<xs:element name="PhoneNumbers" type="PhoneNumbersType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SearchDirectoryProviderType">
+		<xs:sequence>
+			<xs:element name="DirectoryInformation" type="SearchDirectoryInformationType" minOccurs="0"/>
+			<xs:element name="Taxonomy" type="TaxonomyType"/>
+			<xs:element name="Identification" type="IdentificationType" minOccurs="0"/>
+			<xs:element name="Address" type="AddressType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- Common Type Information -->
+	<xs:complexType name="TaxonomyType">
+		<xs:sequence>
+			<xs:element name="TaxonomyCode">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="193200000X|183500000X|247000000X"/>
+						<!--183500000X Pharmacist An individual licensed by the appropriate state regulatory agency to engage in the practice of pharmacy.-->
+						<!--193200000X Multi-Specialty: A business group of one or more individual practitioners, who practice with different areas of specialization.-->
+						<!--247000000X Technician, Health Information: Preferred term for an Accredited Record Technician who is an individual with an associate?s degree from an accredited college or independent study program who is skilled in analyzing health information and in examination of medical records for accuracy, reporting of patient data for reimbursement, and creation of disease registries for researchers.
+                AKA: [Data Provider]-->
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DirectoryPharmacyInformationType">
+		<xs:sequence>
+			<xs:element name="PortalID" type="an..35" minOccurs="0"/>
+			<xs:element name="AccountID" type="an..35" minOccurs="0"/>
+			<xs:element name="BackupPortalID" type="an..35" minOccurs="0"/>
+			<xs:element name="FaxPortalName" type="an..35" minOccurs="0"/>
+			<xs:element name="ServiceLevel" type="n..4M"/>
+			<xs:element name="DefaultLocationServiceLevel" type="n..4M" minOccurs="0"/>
+			<xs:element name="ActiveStartTime" type="UtcDateType"/>
+			<xs:element name="ActiveEndTime" type="UtcDateType"/>
+			<!-- Test flag-->
+			<xs:element name="Test" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="0|1|-1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SpecialtyID" type="n..4M" minOccurs="0"/>
+			<xs:element name="InStoreNCPDPID" type="an..7" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PrescriberDirectoryInformationType">
+		<xs:sequence>
+			<xs:element name="PortalID" type="an..35" minOccurs="0"/>
+			<xs:element name="AccountID" type="an..35" minOccurs="0"/>
+			<xs:element name="BackupPortalID" type="an..35" minOccurs="0"/>
+			<xs:element name="FaxPortalName" type="an..35" minOccurs="0"/>
+			<xs:element name="ServiceLevel" type="n..4M"/>
+			<xs:element name="DefaultLocationServiceLevel" type="n..4M" minOccurs="0"/>
+			<xs:element name="ActiveStartTime" type="UtcDateType"/>
+			<xs:element name="ActiveEndTime" type="UtcDateType"/>
+			<!-- Test flag-->
+			<xs:element name="Test" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="0|1|-1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SpecialtyID" type="n..4M" minOccurs="0"/>
+			<xs:element name="InStoreNCPDPID" type="an..7" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PharmacyDirectoryInformationType">
+		<xs:sequence>
+			<xs:element name="PortalID" type="an..35" minOccurs="0"/>
+			<xs:element name="AccountID" type="an..35" minOccurs="0"/>
+			<xs:element name="BackupPortalID" type="an..35" minOccurs="0"/>
+			<xs:element name="FaxPortalName" type="an..35" minOccurs="0"/>
+			<xs:element name="ServiceLevel" type="n..4M"/>
+			<xs:element name="DefaultLocationServiceLevel" type="n..4M" minOccurs="0"/>
+			<xs:element name="ActiveStartTime" type="UtcDateType"/>
+			<xs:element name="ActiveEndTime" type="UtcDateType"/>
+			<!-- Test flag-->
+			<xs:element name="Test" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="0|1|-1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SpecialtyID" type="n..4M"/>
+			<xs:element name="InStoreNCPDPID" type="an..7" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DataProviderDirectoryInformationType">
+		<xs:sequence>
+			<xs:element name="PortalID" type="an..35" minOccurs="0"/>
+			<xs:element name="AccountID" type="an..35" minOccurs="0"/>
+			<xs:element name="ServiceLevel" type="n..4M"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SearchDirectoryInformationType">
+		<xs:sequence>
+			<xs:element name="ServiceLevel" type="n..4M" minOccurs="0"/>
+			<xs:element name="ActiveStartTime" type="UtcDateType" minOccurs="0"/>
+			<xs:element name="ActiveEndTime" type="UtcDateType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DirectoryNameType">
+		<xs:sequence>
+			<xs:element name="LastName" type="an..35M"/>
+			<xs:element name="FirstName" type="an..35M"/>
+			<xs:element name="MiddleName" type="an..35" minOccurs="0"/>
+			<xs:element name="Suffix" type="an..10" minOccurs="0"/>
+			<xs:element name="Prefix" type="an..10" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AddressType">
+		<xs:sequence>
+			<xs:element name="AddressLine1" type="an..35M" minOccurs="0"/>
+			<xs:element name="AddressLine2" type="an..35" minOccurs="0"/>
+			<xs:element name="City" type="an..35M" minOccurs="0"/>
+			<xs:element name="State" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="((A|a)(L|l))|((A|a)(K|k))|((A|a)(S|s))|((A|a)(Z|z))|((A|a)(R|r))|((C|c)(A|a))|((C|c)(O|o))|((C|c)(T|t))|((D|d)(E|e))|((D|d)(C|c))|((F|f)(M|m))|((F|f)(L|l))|((G|g)(A|a))|((G|g)(U|u))|((H|h)(I|i))|((I|i)(D|d))|((I|i)(L|l))|((I|i)(N|n))|((I|i)(A|a))|((K|k)(S|s))|((K|k)(Y|y))|((L|l)(A|a))|((M|m)(E|e))|((M|m)(H|h))|((M|m)(D|d))|((M|m)(A|a))|((M|m)(I|i))|((M|m)(N|n))|((M|m)(S|s))|((M|m)(O|o))|((M|m)(T|t))|((N|n)(E|e))|((N|n)(V|v))|((N|n)(H|h))|((N|n)(J|j))|((N|n)(M|m))|((N|n)(Y|y))|((N|n)(C|c))|((N|n)(D|d))|((M|m)(P|p))|((O|o)(H|h))|((O|o)(K|k))|((O|o)(R|r))|((P|p)(W|w))|((P|p)(A|a))|((P|p)(R|r))|((R|r)(I|i))|((S|s)(C|c))|((S|s)(D|d))|((T|t)(N|n))|((T|t)(X|x))|((U|u)(T|t))|((V|v)(T|t))|((V|v)(I|i))|((V|v)(A|a))|((W|w)(A|a))|((W|w)(V|v))|((W|w)(I|i))|((W|w)(Y|y))|((A|a)(E|e))|((A|a)(A|a))|((A|a)(P|p))"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ZipCode" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="(\d{5})|(\d{9})"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MandatoryAddressType">
+		<xs:sequence>
+			<xs:element name="AddressLine1" type="an..35M"/>
+			<xs:element name="AddressLine2" type="an..35" minOccurs="0"/>
+			<xs:element name="City" type="an..35M"/>
+			<xs:element name="State">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="((A|a)(L|l))|((A|a)(K|k))|((A|a)(S|s))|((A|a)(Z|z))|((A|a)(R|r))|((C|c)(A|a))|((C|c)(O|o))|((C|c)(T|t))|((D|d)(E|e))|((D|d)(C|c))|((F|f)(M|m))|((F|f)(L|l))|((G|g)(A|a))|((G|g)(U|u))|((H|h)(I|i))|((I|i)(D|d))|((I|i)(L|l))|((I|i)(N|n))|((I|i)(A|a))|((K|k)(S|s))|((K|k)(Y|y))|((L|l)(A|a))|((M|m)(E|e))|((M|m)(H|h))|((M|m)(D|d))|((M|m)(A|a))|((M|m)(I|i))|((M|m)(N|n))|((M|m)(S|s))|((M|m)(O|o))|((M|m)(T|t))|((N|n)(E|e))|((N|n)(V|v))|((N|n)(H|h))|((N|n)(J|j))|((N|n)(M|m))|((N|n)(Y|y))|((N|n)(C|c))|((N|n)(D|d))|((M|m)(P|p))|((O|o)(H|h))|((O|o)(K|k))|((O|o)(R|r))|((P|p)(W|w))|((P|p)(A|a))|((P|p)(R|r))|((R|r)(I|i))|((S|s)(C|c))|((S|s)(D|d))|((T|t)(N|n))|((T|t)(X|x))|((U|u)(T|t))|((V|v)(T|t))|((V|v)(I|i))|((V|v)(A|a))|((W|w)(A|a))|((W|w)(V|v))|((W|w)(I|i))|((W|w)(Y|y))|((A|a)(E|e))|((A|a)(A|a))|((A|a)(P|p))"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ZipCode">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="(\d{5})|(\d{9})"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PhoneNumbersType">
+		<xs:sequence>
+			<xs:element name="Phone" type="PhoneType" maxOccurs="8"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PhoneType">
+		<xs:sequence>
+			<xs:element name="Number" type="an..25M"/>
+			<xs:element name="Qualifier">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="BN|CP|FX|HP|NP|TE|WP"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="TwentyFourHourFlagType">
+		<xs:restriction base="an">
+			<xs:pattern value="(N|T|F)"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="DirectoryPharmacyIDType">
+		<xs:choice maxOccurs="18">
+			<xs:element name="NCPDPID" type="an..35M"/>
+			<xs:element name="FileID" type="an..35" minOccurs="0"/>
+			<xs:element name="StateLicenseNumber" type="an..35" minOccurs="0"/>
+			<xs:element name="MedicareNumber" type="an..35" minOccurs="0"/>
+			<xs:element name="MedicaidNumber" type="an..35" minOccurs="0"/>
+			<xs:element name="PPONumber" type="an..35" minOccurs="0"/>
+			<xs:element name="PayerID" type="an..35" minOccurs="0"/>
+			<xs:element name="BINLocationNumber" type="an..35" minOccurs="0"/>
+			<xs:element name="DEANumber" type="an..35" minOccurs="0"/>
+			<xs:element name="HIN" type="an..35" minOccurs="0"/>
+			<xs:element name="SecondaryCoverage" type="an..35" minOccurs="0"/>
+			<xs:element name="NAICCode" type="an..35" minOccurs="0"/>
+			<xs:element name="PromotionNumber" type="an..35" minOccurs="0"/>
+			<xs:element name="SocialSecurity" type="an..35" minOccurs="0"/>
+			<xs:element name="NPI" type="an..10" minOccurs="0"/>
+			<xs:element name="PriorAuthorization" type="an..35" minOccurs="0"/>
+			<xs:element name="MutuallyDefined" type="an..35" minOccurs="0"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="DirectoryPrescriberIDType">
+		<xs:choice maxOccurs="14">
+			<xs:element name="SPI" type="an..35M"/>
+			<xs:element name="FileID" type="an..35" minOccurs="0"/>
+			<xs:element name="StateLicenseNumber" type="an..35" minOccurs="0"/>
+			<xs:element name="MedicareNumber" type="an..35" minOccurs="0"/>
+			<xs:element name="MedicaidNumber" type="an..35" minOccurs="0"/>
+			<xs:element name="DentistLicenseNumber" type="an..35" minOccurs="0"/>
+			<xs:element name="UPIN" type="an..35" minOccurs="0"/>
+			<xs:element name="PPONumber" type="an..35" minOccurs="0"/>
+			<xs:element name="DEANumber" type="an..35" minOccurs="0"/>
+			<xs:element name="SocialSecurity" type="an..35" minOccurs="0"/>
+			<xs:element name="NPI" type="an..10"/>
+			<xs:element name="PriorAuthorization" type="an..35" minOccurs="0"/>
+			<xs:element name="MutuallyDefined" type="an..35" minOccurs="0"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="IdentificationType">
+		<xs:choice maxOccurs="3">
+			<xs:element name="NCPDPID" type="an..35" minOccurs="0"/>
+			<xs:element name="SPI" type="an..35" minOccurs="0"/>
+			<xs:element name="FileID" type="an..35" minOccurs="0"/>
+			<xs:element name="StateLicenseNumber" type="an..35" minOccurs="0"/>
+			<xs:element name="MedicareNumber" type="an..35" minOccurs="0"/>
+			<xs:element name="MedicaidNumber" type="an..35" minOccurs="0"/>
+			<xs:element name="DentistLicenseNumber" type="an..35" minOccurs="0"/>
+			<xs:element name="UPIN" type="an..35" minOccurs="0"/>
+			<xs:element name="PPONumber" type="an..35" minOccurs="0"/>
+			<xs:element name="PayerID" type="an..35" minOccurs="0"/>
+			<xs:element name="BINLocationNumber" type="an..35" minOccurs="0"/>
+			<xs:element name="DEANumber" type="an..35" minOccurs="0"/>
+			<xs:element name="PriorAuthorization" type="an..35" minOccurs="0"/>
+			<xs:element name="HIN" type="an..35" minOccurs="0"/>
+			<xs:element name="SecondaryCoverage" type="an..35" minOccurs="0"/>
+			<xs:element name="NAICCode" type="an..35" minOccurs="0"/>
+			<xs:element name="PromotionNumber" type="an..35" minOccurs="0"/>
+			<xs:element name="SocialSecurity" type="an..35" minOccurs="0"/>
+			<xs:element name="NPI" type="an..10" minOccurs="0"/>
+			<xs:element name="ProviderUID" type="an..6M" minOccurs="0"/>
+			<xs:element name="MutuallyDefined" type="an..35" minOccurs="0"/>
+		</xs:choice>
+	</xs:complexType>
+	<!-- END ID TYPE BLOCKS -->
+	<!-- Basic SCRIPT Data types -->
+	<xs:simpleType name="MailAddressType">
+		<xs:restriction base="an..80M">
+			<xs:pattern value="mailto:(((\d{10}|\d{13}).(spi|npi))|((\d{7}).(ncpdp))|(([a-zA-Z0-9].*).(tp))|(([a-zA-Z0-9]{6}).(dp)))@surescripts.com"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="GenericDate">
+		<xs:sequence>
+			<xs:element name="Parameter">
+				<xs:simpleType>
+					<xs:restriction base="an..3">
+						<xs:pattern value="07|35|36|85|BE|PE|ZDS"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Date">
+				<xs:simpleType>
+					<xs:restriction base="an..35">
+						<xs:pattern value="((18|19|20)\d{2})(((0[1-9]|1[0-2])(0[1-9]|[12][0-9]))|(((0[13-9])|(1[0-2]))30)|((0[13578]|1[02])31))"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="DateType">
+		<xs:restriction base="an..35">
+			<xs:pattern value="((18|19|20)\d{2})(((0[1-9]|1[0-2])(0[1-9]|[12][0-9]))|(((0[13-9])|(1[0-2]))30)|((0[13578]|1[02])31))"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- YYYYMMDDMMSS format-->
+	<xs:simpleType name="FlatDate">
+		<xs:restriction base="an..35M">
+			<xs:pattern value="((19|20)\d{2})-(((0[1-9]|1[0-2])-(0[1-9]|[12][0-9]))|(((0[13-9])|(1[0-2]))-30)|((0[13578]|1[02])-31))(([0-1]\d)|(2[0-4])):([0-5]\d):([0-5]\d)(.\d|.|)Z"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="UtcDateType">
+		<xs:restriction base="an..35M">
+			<xs:pattern value="((19|20)\d{2})-(((0[1-9]|1[0-2])-(0[1-9]|[12][0-9]))|(((0[13-9])|(1[0-2]))-30)|((0[13578]|1[02])-31))T(([0-1]\d)|(2[0-4])):([0-5]\d):([0-5]\d)(.\d|.|)Z"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="nM">
+		<xs:restriction base="anM">
+			<xs:pattern value="[0-9]+(\.|)[0-9]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="n">
+		<xs:restriction base="anM">
+			<xs:pattern value="[0-9]+(\.|)[0-9]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="n..2">
+		<xs:restriction base="n">
+			<xs:maxLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="n..2M">
+		<xs:restriction base="nM">
+			<xs:maxLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="n..3M">
+		<xs:restriction base="nM">
+			<xs:maxLength value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="n..4M">
+		<xs:restriction base="nM">
+			<xs:maxLength value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="n..14M">
+		<xs:restriction base="nM">
+			<xs:maxLength value="14"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="n..15M">
+		<xs:restriction base="nM">
+			<xs:maxLength value="15"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="n..18M">
+		<xs:restriction base="nM">
+			<xs:maxLength value="18"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="anM">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="([!-~]|[ ])*[!-~]([!-~]|[ ])*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="an">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[ !-~]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="an..1">
+		<xs:restriction base="an">
+			<xs:maxLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="an..2">
+		<xs:restriction base="an">
+			<xs:maxLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="an..3">
+		<xs:restriction base="an">
+			<xs:maxLength value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="an..3M">
+		<xs:restriction base="anM">
+			<xs:maxLength value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="an..6M">
+		<xs:restriction base="anM">
+			<xs:maxLength value="6"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="an..7M">
+		<xs:restriction base="anM">
+			<xs:maxLength value="7"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="an..7">
+		<xs:restriction base="an">
+			<xs:maxLength value="7"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="an..9M">
+		<xs:restriction base="anM">
+			<xs:maxLength value="9"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="an..6">
+		<xs:restriction base="an">
+			<xs:maxLength value="6"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="an..10">
+		<xs:restriction base="an">
+			<xs:maxLength value="10"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="an..11M">
+		<xs:restriction base="anM">
+			<xs:maxLength value="11"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="an..13M">
+		<xs:restriction base="anM">
+			<xs:maxLength value="13"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="an..15">
+		<xs:restriction base="an">
+			<xs:maxLength value="15"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="an..17">
+		<xs:restriction base="an">
+			<xs:maxLength value="17"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="an..17M">
+		<xs:restriction base="anM">
+			<xs:maxLength value="17"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="an..19M">
+		<xs:restriction base="anM">
+			<xs:maxLength value="19"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="an..25M">
+		<xs:restriction base="anM">
+			<xs:maxLength value="25"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="an..35">
+		<xs:restriction base="an">
+			<xs:maxLength value="35"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="an..35M">
+		<xs:restriction base="anM">
+			<xs:maxLength value="35"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="an..50M">
+		<xs:restriction base="anM">
+			<xs:maxLength value="50"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="an..70">
+		<xs:restriction base="an">
+			<xs:maxLength value="70"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="an..70M">
+		<xs:restriction base="anM">
+			<xs:maxLength value="70"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="an..80">
+		<xs:restriction base="an">
+			<xs:maxLength value="80"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="an..80M">
+		<xs:restriction base="anM">
+			<xs:maxLength value="80"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="an..255">
+		<xs:restriction base="an">
+			<xs:maxLength value="255"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="an..255M">
+		<xs:restriction base="anM">
+			<xs:maxLength value="255"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="an..105">
+		<xs:restriction base="an">
+			<xs:maxLength value="105"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="an..105M">
+		<xs:restriction base="anM">
+			<xs:maxLength value="105"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="an..140">
+		<xs:restriction base="an">
+			<xs:maxLength value="140"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="an..210">
+		<xs:restriction base="an">
+			<xs:maxLength value="210"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="an..264">
+		<xs:restriction base="an">
+			<xs:maxLength value="264"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

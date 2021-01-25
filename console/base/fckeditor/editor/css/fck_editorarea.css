@@ -1,0 +1,113 @@
+/*
+ * FCKeditor - The text editor for internet
+ * Copyright (C) 2003-2005 Frederico Caldeira Knabben
+ * 
+ * Licensed under the terms of the GNU Lesser General Public License:
+ * 		http://www.opensource.org/licenses/lgpl-license.php
+ * 
+ * For further information visit:
+ * 		http://www.fckeditor.net/
+ * 
+ * "Support Open Source software. What about a donation today?"
+ * 
+ * File Name: fck_editorarea.css
+ * 	This is the default CSS file used by the editor area. It defines the
+ * 	initial font of the editor and background color.
+ * 
+ * 	A user can configure the editor to use another CSS file. Just change
+ * 	the value of the FCKConfig.EditorAreaCSS key in the configuration
+ * 	file.
+ * 
+ * File Authors:
+ * 		Frederico Caldeira Knabben (fredck@fckeditor.net)
+ */
+
+body
+{
+	font-family: Arial, Verdana, Sans-Serif;
+	font-size: 12px;
+	padding: 5px 5px 5px 5px;
+	margin: 0px;
+	border-style: none;
+	background-color: #ffffff;
+}
+
+/* 
+	Just uncomment the following block if you want to avoid spaces between 
+	paragraphs. Remember to apply the same style in your output front end page.
+*/
+/*
+P, UL, LI
+{
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+*/
+
+.Bold
+{
+	font-weight: bold;
+}
+
+.Title
+{
+	font-weight: bold;
+	font-size: 18px;
+	color: #cc3300;
+}
+
+.Code
+{
+	border: #8b4513 1px solid;
+	padding-right: 5px;
+	padding-left: 5px;
+	color: #000066;
+	font-family: 'Courier New' , Monospace;
+	background-color: #ff9933;
+}
+
+.SearchSymbol { 
+	font-size: 14px;
+	color: 910230; 
+	font-weight: normal; 
+}
+	
+.title { font-size: 18px; font-weight: normal; color: #000000; }
+
+.subtitle { font-size: 14px; font-weight: bold; color: #000000; }
+
+.description-reg { font-size: 12px; font-weight: normal; color: #000000; }
+
+.description-bold { font-size: 12px; font-weight: bold; color: #000000; }
+
+.description-uline { font-size: 12px; font-weight: normal; text-decoration: underline; color: #000000; }
+
+.bullet-reg li { margin: 2px; padding: 2px; list-style-type: disc; font-size: 12px;}
+
+.bullet-bold li { margin: 2px; padding: 2px; list-style-type: disc; font-weight: bold; font-size: 12px; }
+
+
+.note-hd { font-size: 13px; font-weight: bold; color: #ff0000; }
+
+.note-bold { font-size: 12px; font-weight: bold; color: #ff0000; }
+
+.note-description { font-size: 12px; font-weight: normal; color: #ff0000; }
+
+.note-bullet li { margin: 2px; padding: 2px; list-style-type: disc; font-weight: normal; font-size: 12px; color: #ff0000; }
+
+.path { font-size: 11px; font-weight: normal; color: #ff3399; }
+
+
+.key{ font-size: 16px; font-weight: bold; color: #ff44f8; }
+
+
+.example-hd { font-size: 13px; font-weight: bold; color: #0044ce; }
+
+
+.example-description { font-size: 12px; font-weight: normal; color: #0044ce; }
+
+.example-bullet li { margin: 2px; padding: 2px; list-style-type: disc; font-weight: normal; font-size: 12px; color: #0044ce; }
+
+.example-bold { font-size: 12px; font-weight: bold; color: #0044ce; }
+
+.greentemp { font-size: 11px; font-weight: normal; color: #02cc44; }		

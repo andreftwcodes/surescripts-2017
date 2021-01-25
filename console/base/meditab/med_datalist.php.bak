@@ -1,0 +1,312 @@
+<?php
+
+/**
+ * This class containt methods for Data Listing
+ * @package    DB
+ * @author     MediTab 
+ * @copyright  1997-2005 The MediTab Group
+ * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version    Release: 1.0
+ * @PHP version  5.x
+
+ * Methods of this class
+ * 1.		setListFields($strSetListFields)
+ * 2.		setListTbl($strTblName)
+ * 3.		setListWhere($strWhereCond)
+ * 4.		setListOrderBy($strOrderBy)
+ * 5.		setListGroupBy($strGroupBy)
+ * 6.		generateWhere($arrFilter)
+ * 7.		getSrchPattern($strPattern, $strValue)
+ * 8.		generateOrderBy($arrOrderBy)
+ * 9.		constructQuery($arrFilters, $arrOrderBy, $intStart, $intNoOfRec)
+ * 10.		countRecords($arrFilters="")
+ * 11.		load($arrFilters=null, $arrOrderBy=null, $intStart=null, $intNoOfRec=null)
+**/
+
+/**
+ * Include db class script
+ */
+class MedDataList
+{
+	public $strSearchableFieldNames;		
+	public $strSQLSelectFields;			//string var having the names of all the fields to be selected in the select query
+	public $strSQLFromTables;			//string var having the names of the tables
+	public $strSQLWhereCriteria;		//string var having the where clause
+	public $strSQLOrderBy;				//string var having the order by clause
+	public $strSQLGroupBy;				//string var having the group by clause
+	public $arrPrimaryKeyFields;		//array  var having the name of the primary key
+	public $blnCustomMode;		//array  var having the name of the primary key
+	public $strSetCustomQuery;		//array  var having the name of the primary key	
+
+
+	const SEARCH_TYPE_EXACT = 0;		//integer constant for search type exact
+	const SEARCH_TYPE_LIKE = 1;			//integer constant for search type like
+	const SEARCH_TYPE_STARTS_WITH = 2;	//integer constant for search type starting with
+	
+	/**
+	 *	Constructor of the MedDataList Class
+	 */
+	function __construct()
+	{
+		$this->blnCustomMode = false;
+	}
+	/**
+	 *	This method sets User Defined query
+	 *	@return void
+	 */
+	function setSQL($strQuery)
+	{
+		$this->blnCustomMode = true;
+		$this->strSetCustomQuery = $strQuery;
+	}
+	/***
+	 * This function will set the fields to selected in the select query for this class
+	 * @param string $strTblNames having the names of the tables to be selected from
+	 * @param string $arrPk having the names of the fields Primay Key to be selected
+	 * @param string $strSetListFields having the names of the fields to be selected
+	 * @param string $strWhereCond having the where condition
+	 * @param string $strOrderBy having the order of the select
+	 * @param string $strGroupBy having the group by condiiton of select
+	 * @return void
+	*/
+	function setProperty($strTblName,$arrPk,$strSetListFields=null,$strWhereCond=null,$strOrderBy=null,$strGroupBy=null)
+	{
+		if(!is_array($arrPk)) $arrPk = array($arrPk); // set the Fields in Array
+		
+		$this->arrPrimaryKeyFields = $arrPk;
+		$this->strSQLFromTables = $strTblName;
+		$this->strSQLSelectFields = $strSetListFields;
+		$this->strSQLWhereCriteria = $strWhereCond;
+		$this->strSQLOrderBy = $strOrderBy;
+		$this->strSQLGroupBy = $strGroupBy;
+		$this->blnCustomMode = false;
+	}
+	/***
+	 * This function will set the fields to selected in the select query for this class
+	 * @param string $strSetListFields having the names of the fields to be selected
+	 * @return void
+	*/
+	public function setListFields($strSetListFields)
+	{
+		$this->strSQLSelectFields = $strSetListFields;
+	}
+	
+	
+	/***
+	 * This function will set the table names in the select query for this class
+	 * @param string $strTblNames having the names of the tables to be selected from
+	 * @return void
+	*/
+	public function setListTbl($strTblName)
+	{
+		$this->strSQLFromTables = $strTblName;
+	}
+	
+	/***
+	 * This function will set the where condition in the select query for this class
+	 * @param string $strWhereCond having the where condition
+	 * @return void
+	*/
+	public function setListWhere($strWhereCond)
+	{
+		$this->strSQLWhereCriteria = $strWhereCond;
+	}
+	
+	/***
+	 * This function will set the order by condition in the select query for this class
+	 * @param string $strOrderBy having the order of the select
+	 * @return void
+	*/
+	public function setListOrderBy($strOrderBy)
+	{
+		$this->strSQLOrderBy = $strOrderBy;
+	}
+	
+	/***
+	 * This function will set the group by condition in the select query for this class
+	 * @param string $strGroupBy having the group by condiiton of select
+	 * @return void
+	*/
+	public function setListGroupBy($strGroupBy)
+	{
+		$this->strSQLGroupBy = $strGroupBy;
+	}
+
+	/***
+	 * This function generates the Where condition for select
+	 * @param array	$arrFilter having the search fieldname,search value and search pattern
+	 * @return string $strWhere returning the whole where clause
+	*/
+	private function generateWhere($arrFilter)
+	{
+		$strWhere = "";
+		if ($this->strSQLWhereCriteria)	// add first where Condtion
+			$strWhere .= " where (".$this->strSQLWhereCriteria.")";
+
+		if (is_array($arrFilter))	// add filters of other conditions
+		{
+			for ($idx=0; $idx < count($arrFilter); $idx++)
+			{
+				if (is_array($arrFilter[$idx][1]))
+				{
+					$strCondition = "";
+					for($i=0; $i < count($arrFilter[$idx][1]); $i++)
+					{
+						$strSrch = $this->getSrchPattern($arrFilter[$idx][2], $arrFilter[$idx][1][$i]);
+						if ($strSrch)
+							$strCondition .= $arrFilter[$idx][0].$strSrch." OR ";
+					}
+					$strCondition = substr($strCondition, 0, (strlen($strCondition) - 4));
+				}
+				else
+				{
+					$strSrch = $this->getSrchPattern($arrFilter[$idx][2], $arrFilter[$idx][1]);
+					if ($strSrch)
+						$strCondition = $arrFilter[$idx][0].$strSrch;
+				}
+
+				if ($strWhere)
+					$strWhere .= " and ";
+				else $strWhere = " where ";
+				$strWhere .= "(".$strCondition.")";
+			}
+		}
+		return $strWhere;
+	}
+
+	/***
+	 * This function generates the one search pattern for where criteria
+	 * @param string $strPattern containing the search pattern
+	 * @param string $strValue containing the search value
+	 * @return string $strSrch returning one search string
+	*/
+	
+	private function getSrchPattern($strPattern, $strValue)
+	{
+		$objMedDb = MedDB::getDBObject();
+		$strSrch = "";
+		switch ($strPattern)
+		{
+			case MedDataList::SEARCH_TYPE_EXACT:
+				$strSrch = " LIKE '".$objMedDb->escapeString($strValue)."'";
+				break;
+			case MedDataList::SEARCH_TYPE_LIKE:
+				$strSrch = " LIKE '%".$objMedDb->escapeString($strValue)."%'";
+				break;
+			case MedDataList::SEARCH_TYPE_STARTS_WITH:
+				$strSrch = " LIKE '".$objMedDb->escapeString($strValue)."%'";
+				break;
+			case MedDataList::SEARCH_TYPE_ENDS_WITH:
+				$strSrch = " LIKE '%".$objMedDb->escapeString($strValue)."'";
+				break;
+			default:
+				break;
+		}
+		return $strSrch;
+	}
+
+	/***
+	 * This function generate Order by String
+	 * @param 	array 	$arrOrderBy having keys as fieldnames and values as their orders i.e. asc or desc
+	 * @return 	string 	$strOrderBy returning the whole order by string
+	*/
+	private function generateOrderBy($arrOrderBy)
+	{
+		$strOrderBy = "";
+		if (is_array($arrOrderBy))
+		{
+			foreach ($arrOrderBy as $strFieldName => $strOrder)
+			{
+				if ($strFieldName)
+					$strOrderBy .= $strFieldName." ".$strOrder.",";
+			}
+		}
+		if ($strOrderBy)
+		{
+			$strOrderBy = substr($strOrderBy,0,(strlen($strOrderBy)-1));
+			$strOrderBy = " order by ".$strOrderBy;
+		}
+		else
+		{
+			if ($this->strSQLOrderBy)
+				$strOrderBy = " order by ".$this->strSQLOrderBy;
+		}
+		return $strOrderBy;
+	}
+
+	/***
+	 * This function constructs the whole query
+	 * @param 	array $arrFilters where $filters contains the search fieldname,search value and search pattern
+	 * @param	array	$arrOrderBy having keys as fieldnames and values as their orders i.e. asc or desc
+	 * @param 	integer $intStart having the start record number
+	 * @param	integer	$intNoOfRec having the number of records to be fetched
+	 * @return 	string 	$strQuery having the query.
+	 */
+	private function constructQuery($arrFilters, $arrOrderBy, $intStart, $intNoOfRec)
+	{
+		if ($this->blnCustomMode)
+			return $this->strSetCustomQuery;
+	
+		$strQuery= "select ";
+		
+		
+		$strQuery.= " ".$this->strSQLSelectFields." from ".$this->strSQLFromTables.
+			$this->generateWhere($arrFilters);
+
+		if ($this->strSQLGroupBy)
+			$strQuery .= " group by ".$this->strSQLGroupBy;
+
+		$strQuery .= $this->generateOrderBy($arrOrderBy);
+		
+		
+		if ($intNoOfRec != "0" && $intNoOfRec != "")
+		{
+			//$strQuery.= " limit ".$intNoOfRec." start at ".$intStart;
+			$strQuery.= " limit ".$intStart.",".$intNoOfRec;
+		}
+		
+		return $strQuery;
+	}
+	/***
+	 * This function returns the no of records
+	 * This function will internally called by List Class for Paging
+	 * @param array	$arrFilters where $filters contains the search fieldname,search value and search pattern
+	 * @return integer $arrResult[0]["tot"] containing the total number of records for this particular condition
+	 */
+	public function countRecords($arrFilters="")
+	{
+		$strWhereCond = $this->generateWhere($arrFilters);
+
+		$strQuery = "";
+		if ($this->strSQLGroupBy)
+			$strQuery = "Select count(distinct ".$this->strSQLGroupBy.") as tot ";
+		else
+			$strQuery = "Select count(*) as tot ";
+
+		$strQuery .= "FROM ".$this->strSQLFromTables."\n".$strWhereCond;
+
+		$objMedDb = MedDB::getDBObject();
+		$arrResult = $objMedDb->executeSelect($strQuery);
+		
+		return $arrResult[0]["tot"];
+	}
+
+	
+	/***
+	 * This is main functiion will will called by list class, to load data
+	  * @param 	array $arrFilters having the search fieldname,search value and search pattern
+	 * @param	array $arrOrderBy having keys as fieldnames and values as their orders i.e. asc or desc
+	 * @param 	integer $intStart having the start record number
+	 * @param	integer	$intNoOfRec having the number of records to be fetched
+	 * @return recordset $rsData having the result of the query built using the given parameters
+	 */
+	public function load($arrFilters=null, $arrOrderBy=null, $intStart=null, $intNoOfRec=null)
+	{
+		$objMedDb = MedDB::getDBObject();
+		
+		echo $strQuery = $this->constructQuery($arrFilters, $arrOrderBy, $intStart, $intNoOfRec); 
+		$rsData = $objMedDb->executeSelect($strQuery);
+		return $rsData;
+	}
+}
+?>

@@ -1,0 +1,88 @@
+what they post
+---------------
+
+<Message version="1.0" xmlns="http://www.surescripts.com/messaging">
+<Header>
+<To>mailto:6061026053001.spi@surescripts.com</To>
+<From>mailto:3365310.ncpdp@surescripts.com</From>
+<MessageID>0</MessageID>
+<RelatesToMessageID>MID0050029TID201x4</RelatesToMessageID>
+<SentTime>2009-03-23T16:36:13.0Z</SentTime>
+</Header>
+<Body>
+<EDIFACTMessage>VU5BHB0uIB8eVUlCHVVOT0EcMB0dMBxNSUQwMDUwMDI5VElEMjAxeDQdHR0zMzY1MzEwHFAdNjA2MTAyNjA1MzAwMRxEHTIwMDkwMzIzHDE2MzYxMywwHlVJSB1TQ1JJUFQcMDA4HDAwMRxTVEFUVVMeU1RTHTAwMB0dVHJhbnNhY3Rpb24gU3VjY2Vzc2Z1bB5VSVQdHTMeVUlaHR0xHg==</EDIFACTMessage>
+</Body>
+</Message>
+
+UNA. UIBUNOA00MID0050029TID201x43365310P6061026053001D20090323163613,0UIHSCRIPT008001STATUSSTS000Transaction SuccessfulUIT3UIZ1
+
+what we post
+-------------
+<?xml version="1.0" encoding="utf-8"?>
+<Message xmlns="http://www.surescripts.com/messaging">
+<Header>
+<To>mailto:3365310.ncpdp@surescripts.com</To>
+<From>mailto:MEDTAB.tp@surescripts.com</From>
+<MessageID>0</MessageID>
+<RelatesToMessageID><></RelatesToMessageID>
+<SentTime>2009-04-03T10:55:58.3Z</SentTime>
+</Header>
+<Body>
+<EDIFACTMessage>VU5BOitcKicNClVJQitVTk9BOjArKzA6PD4rKytNRURUQUI6UCszMzY1MzEwOkQrMjAwOTA0MDM6MTA1NTU4Jw0KVUlIK1NDUklQVDowMDg6MDAxOlNUQVRVUycNClNUUyswMTArKycNClVJVCsrJw0KVUlaKysxJw==</EDIFACTMessage>
+</Body>
+</Message>
+
+UNA:+\*'
+UIB+UNOA:0++0:<>+++MEDTAB:P+3365310:D+20090403:105558'
+UIH+SCRIPT:008:001:STATUS'
+STS+010++'
+UIT++'
+UIZ++1'
+
+XML Wrapped Message Submission: 1
+
+<Message version="1.0" xmlns="http://www.surescripts.com/messaging">
+<Header>
+<To>mailto:4736190679001.spi@surescripts.com</To>
+<From>mailto:SUITDR.dp@surescripts.com</From>
+<MessageID>0</MessageID>
+<RelatesToMessageID>c52afab68130446ea04e76466c29e14c</RelatesToMessageID>
+<SentTime>2009-04-03T19:18:08.3Z</SentTime>
+</Header>
+<Body>
+<EDIFACTMessage>VU5BOitcKidVSUIrVU5PQTowKyswOmM1MmFmYWI2ODEzMDQ0NmVhMDRlNzY0NjZjMjllMTRjKysrU1VJVERSOlMrNDczNjE5MDY3OTAwMTpEKzIwMDkwNDAzOjE5MTgwOCdVSUgrU0NSSVBUOjAwODowMDE6U1RBVFVTJ1NUUyswMDArKydVSVQrKydVSVorKzEn</EDIFACTMessage>
+</Body>
+</Message>
+
+Decoded EDIFact: 1
+
+UNA:+\*'UIB+UNOA:0++0:c52afab68130446ea04e76466c29e14c+++SUITDR:S+4736190679001:D+20090403:191808'UIH+SCRIPT:008:001:STATUS'STS+000++'UIT++'UIZ++1'
+
+------------------------------------------------------------------------------------------
+XML Wrapped Message Submission 2
+
+<Message version="1.0" xmlns="http://www.surescripts.com/messaging">
+<Header>
+<To>mailto:4736190679001.spi@surescripts.com</To>
+<From>mailto:3365353.ncpdp@surescripts.com</From>
+<MessageID>0</MessageID>
+<RelatesToMessageID>09e4c2a63a0141f9946c5b3cd06ffb18</RelatesToMessageID>
+<SentTime>2009-04-03T18:09:11.3Z</SentTime>
+</Header>
+<Body>
+<EDIFACTMessage>VU5BOitcKicNClVJQitVTk9BOjArKzA6MDllNGMyYTYzYTAxNDFmOTk0NmM1YjNjZDA2ZmZiMTgrKyszMzY1MzUzOlArNDczNjE5MDY3OTAwMTpEKzIwMDkwNDAzOjE4MDkxMScNClVJSCtTQ1JJUFQ6MDA4OjAwMTpTVEFUVVMnDQpTVFMrMDAwKytUcmFuc2FjdGlvbiBTdWNjZXNzZnVsJw0KVUlUKysnDQpVSVorKzEn</EDIFACTMessage>
+</Body>
+</Message>
+
+Decoded EDIFact: 2
+
+UNA:+\*'
+UIB+UNOA:0++0:09e4c2a63a0141f9946c5b3cd06ffb18+++3365353:P+4736190679001:D+20090403:180911'
+UIH+SCRIPT:008:001:STATUS'
+STS+000++Transaction Successful'
+UIT++'
+UIZ++1'
+
+------------------------------------------------------------------------------------------
+	 
+
