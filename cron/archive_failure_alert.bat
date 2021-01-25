@@ -1,1 +1,0 @@
-php-cgi D:/UniServerZ/www/surescripts/xmlv106/med_archive_failure_alert.php

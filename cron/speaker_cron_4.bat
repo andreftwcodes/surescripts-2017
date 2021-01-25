@@ -1,1 +1,0 @@
-php C:/UniServerZ/www/surescripts/cron/speaker_cron_4.php
