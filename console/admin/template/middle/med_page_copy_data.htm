@@ -1,0 +1,81 @@
+<form name="frm_add_record" id="frm_add_record" method="post" action="index.php">
+<input type="hidden" name="file" id="file"  value="med_page_copy_data">
+<input type="hidden" name="hid_table_id" id="hid_table_id"  value="{$intTableId}">
+<input type="hidden" name="hid_page_type" id="hid_page_type"  value="{$strPageType}">
+<input type="hidden" name="hid_module_id" id="hid_module_id"  value="{$intModuleId}">
+<input type="hidden" name="parent_id" id="parent_id" value="{$intParentId}" />
+<input type="hidden" name="hidin_table_id" id="hidin_table_id"  value="{$intTableId}">
+<table border="0" cellpadding="0" cellspacing="0"  width="100%" class="tab-bor" align="center">
+  <tr>
+    <td width="45%" align="left"><img src="images/orange-sarrow.gif" width="9" height="9" hspace="4" /><span class="bold-text"><span onclick="gotoPageSetting();">Page Settings:</span>&nbsp;{$strModuleName}<span></td>
+<td width="45%" align="right" height="24">
+<a href="index.php?file=med_page_listings&hid_page_type=L&hidin_module_id=0">View Tables</a>&nbsp;|
+	  <a href="index.php?file=med_page_multi_list&hid_page_type=L&hid_table_id={$intTableId}&parent_id={$intParentId}&hidin_module_id=0&strLeftId={$strLeftId}">View Multi</a>&nbsp;|
+      <a href="index.php?file=med_page_fields_listings&hid_page_type=L&hid_table_id={$intTableId}&parent_id={$intParentId}&hidin_module_id=0&strLeftId={$strLeftId}">View Fields</a>&nbsp;|
+      <a href="index.php?file=med_page_buttons_listings&hid_page_type=L&hid_table_id={$intTableId}&parent_id={$intParentId}&hidin_module_id=0&strLeftId={$strLeftId}">View Buttons</a>&nbsp;|
+	  <a href="index.php?file=med_page_search_listings&hid_page_type=L&hid_table_id={$intTableId}&parent_id={$intParentId}&hidin_module_id=0&strLeftId={$strLeftId}">View Search</a>
+	  </td>
+    <td width="10%" align="right"><img src="images/dot-back-arrow.gif" width="5" height="9" hspace="5" /><a href="javascript:history.back();">Back</a>&nbsp;</td>
+  </tr>
+  <tr>
+    <td height="1" class="blue-bg" colspan="7"></td>
+  </tr>
+  { if (!empty($strMessage))}
+  <tr>
+    <td colspan="7" height="25"  class="error-normal" align="center" valign="middle">{$strMessage}</td>
+  </tr>
+  {/if}
+  <tr height="30"> </tr>
+  <tr>
+    <td height="2" colspan="7" align="right" valign="middle"><table cellpadding="1" cellspacing="1" border="0">
+      <tr>
+        <td valign="top">Search Table ID:</td>
+        <td valign="top"><input type="text" name="searchText" value="{$strSearch}" class="comn-input" size="60"/></td>
+        <td><input type='submit' name=btn1 value='Go'  class='btn' />&nbsp;&nbsp;</td>
+      </tr>
+    </table></td>
+  </tr>
+  <td colspan="7" valign="top" align="center"><table width='100%' cellpadding="0" cellspacing="0" border="0">
+    <tr>
+      <td colspan="2" height="10" ></td>
+    </tr>
+    <tr>
+	  <td colspan="2" height="24" align="center">
+	    <table cellpadding="0" cellspacing="0" border="0">		
+			 <tr>		
+			   <td align='right' valign='top'>Select Main Table:</td>
+		      <td align='left' valign='top'>{$strPageTbl}  </td>
+
+			  <td align='left' valign='top' ><img src="{$IMAGE_PATH}zoom.gif" border="0" onclick="zoomIn('index.php?file=med_zoom&amp;code=SELECT_MAIN_TABLE&amp;ControlFlag=1',
+				'Select Main Table','PageTbl[]',500,500);" class="help" alt="Zoom" /></td>
+			  <td width="50" align='right' valign='top'>&nbsp;</td>
+			  <td align='right' valign='top'>Page Setting Table:</td>
+			  <td align='left' valign='top'>{$strAddTbl}  </td>
+			  <td align='left' valign='top'><img src="{$IMAGE_PATH}zoom.gif" border="0" onclick="zoomIn('index.php?file=med_zoom&amp;code=SELECT_PAGESETTING_TABLE&amp;ControlFlag=1',
+						'Page Setting Table','AddTbl[]',500,500);" class="help" alt="Zoom" /></td>
+			 </tr>			
+		</table>
+	 </td>			
+    </tr>
+    <tr>
+      <td colspan="2" height="4" ></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td align="center"><input type='submit' name='smt_submit' value='Submit' onclick='return submit_form(this.form);' class="btn" /></td>
+    </tr>
+    <tr>
+      <td colspan="2" height="10" ></td>
+    </tr>
+    {if $strQuery neq ''}
+    <tr>
+      <td colspan="2" height="10" width='20%'>&nbsp;&nbsp;<textarea name="Query" cols="150" rows="50" wrap="physical" >
+	  {$strQuery}
+	  </textarea></td>
+    </tr>
+    {/if}
+  </table></td>
+  </tr>
+</table>
+</form>
+ 		

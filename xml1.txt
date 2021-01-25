@@ -1,0 +1,1 @@
+SELECT mt_tran_id FROM prescriber_master WHERE spi = '6300728444001'<br>afd2cb451ac64a63a3f606f054bded4c

@@ -1,0 +1,146 @@
+<form name="frm_add_record" id="frm_add_record" method="post" action="index.php" enctype="multipart/form-data">
+  <input type="hidden" name="hid_table_id" id="hid_table_id"  value="{$intTableId}">
+  <input type="hidden" name="hid_page_type" id="hid_page_type"  value="{$strPageType}">
+  <input type="hidden" name="file" id="file" value="med_general_settings_add" />
+  {$strEXTRA_FIELD_VALIDATION}
+  {$strHidUpdateID}
+  <table border="0" cellpadding="0" cellspacing="0"  width="100%" class="tab-bor" align="center">
+    <tr>
+      <td height="24" align="left"><img src="images/orange-sarrow.gif" width="9" height="9" hspace="4" /> <font class="bold-text"> {$strTitle}</font></td>
+      <td width="5%" align="left"><img src="images/dot-back-arrow.gif" width="5" height="9" hspace="5" /><a href="javascript:history.back();">Back</a></td>
+    </tr>
+    <tr>
+      <td height="1" class="blue-bg" colspan="2"></td>
+    </tr>
+    { if (!empty($strMessage))}
+    <tr>
+      <td colspan="2" height="25"  class="error-normal" align="center" valign="middle">{$strMessage}</td>
+    </tr>
+    {/if}
+    <tr>
+      <td colspan="2" height="10"></td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center" height="30"><!----------- TABLE START --------------->
+        <table cellspacing="2" cellpadding="2" align="left" style="padding-left:70px">
+          <tr>
+            <td align='right' width='20%' height='24' valign='top'> {$LBL_var_name} </td>
+            <td align='left' valign='top'> {$strvar_name} </td>
+          </tr>
+          <tr>
+            <td align='right' width='20%' height='24' valign='top'> {$LBL_var_desc} </td>
+            <td align='left' valign='top'> {$strvar_desc} </td>
+          </tr>
+          <tr>
+            <td align='right' width='20%' height='24' valign='top'> {$LBL_var_value} </td>
+            <td align='left' valign='top'>{$strvar_value}</td>
+          </tr>
+          <tr>
+            <td align='right' width='20%' height='24' valign='top'> {$LBL_var_type} </td>
+            <td align='left' valign='top'> {$strvar_type} </td>
+          </tr>
+          <tr>
+            <td align='right' width='20%' height='24' valign='top'> {$LBL_var_select} </td>
+            <td align='left' valign='top'> {$strvar_select} </td>
+          </tr>
+          <tr>
+            <td align='right' width='20%' height='24' valign='top'> {$LBL_var_size} </td>
+            <td align='left' valign='top'> {$strvar_size} </td>
+          </tr>
+          <tr>
+            <td align='right' width='20%' height='24' valign='top'> {$LBL_var_maxlength} </td>
+            <td align='left' valign='top'> {$strvar_maxlength} </td>
+          </tr>
+          <tr>
+            <td align='right' width='20%' height='24' valign='top'> {$LBL_seq_no} </td>
+            <td align='left' valign='top'> {$strseq_no} </td>
+          </tr>
+          <tr>
+            <td align='right' width='20%' height='24' valign='top'> {$LBL_field_group} </td>
+            <td align='left' valign='top'> {$strfield_group}&nbsp;&nbsp;
+              <div id="div_other_field_group" style="display:none;">
+                <input name="Tatxt_other_field_group" id="Tatxt_other_field_group" value="" class="comn-input" type="text">
+              </div></td>
+          </tr>
+          <!--<tr>
+            <td align='right' width='20%' height='24' valign='top'> {$LBL_field_order} </td>
+            <td align='left' valign='top'><div id="div_field_order" name="div_field_order"> {$strfield_order} </div></td>
+          </tr>-->
+          <tr>
+            <td align='right' width='20%' height='24' valign='top'> {$LBL_status} </td>
+            <td align='left' valign='top'> {$strstatus} </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td align='left'><input type='button' name='smt_submit' value='Submit' onclick='return submit_form(this.form);' class='btn'>
+            </td>
+          </tr>
+        </table>
+        <!----------- TABLE START --------------->
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" height="10"></td>
+    </tr>
+  </table>
+</form>
+{literal}
+<script language="javascript">
+getFieldGroupControl();
+
+if(getElement('hid_page_type').value == 'E')
+{
+	getElement('Tatxt_var_value').setAttribute('maxlength',getElement('Intxt_var_maxlength').value);
+	getElement('Tatxt_var_value').setAttribute('size',getElement('Intxt_var_size').value);
+}
+
+function getFieldGroupControl()
+{
+
+	if(document.getElementById("Rslt_field_group").value == -1)
+		document.getElementById("div_other_field_group").style.display="inline";
+	else	
+		document.getElementById("div_other_field_group").style.display="none";
+	if(document.getElementById("Rslt_field_group").value != -1 && document.getElementById("Rslt_field_group").value != "")
+	{
+	getPageData('index.php?file=med_general_settings_get_field_order&field_group='+document.getElementById("Rslt_field_group").value,'div_field_order');
+
+	}
+}
+/*
+	This function called for Action 
+*/
+function extraValid()
+{
+	strFrm			= document.frm_add_record;
+	alertMsg 		= "";
+
+		if(document.getElementById("Rslt_field_group").value == -1)
+		{
+			if(Trim(strFrm.Tatxt_other_field_group.value) == "")
+			{
+				alertMsg += "\nPlease enter value for Field Group.";
+				strFrm.Tatxt_other_field_group.value	= "";
+				setStyle(strFrm.Tatxt_other_field_group);
+			}
+			else
+			{
+				resetStyle(strFrm.Tatxt_other_field_group);
+			}	
+		}
+
+		if(alertMsg != "")
+		{
+			alertMsg = "Following errors:\n" + alertMsg;	
+			alert(alertMsg);	
+			eval(strStyle);
+			eval(strFocus);
+			return false
+		}
+		//Get the action to be performed
+		strFrm.file.value = "med_general_settings_action";
+		strFrm.submit();
+		return true;
+}
+</script>
+{/literal}

@@ -1,0 +1,45 @@
+<form name="frm_dev_pass" id="frm_dev_pass" method="post" action="index.php">
+<input type="hidden" name="file" id="file" value="med_dev_pass">
+<input type="hidden" name="hid_return_url" id="hid_return_url" value="{$strReturnUrl}">
+<input type="hidden" name="parent_id" id="parent_id" value="{$intParentId}"/>
+<table border="0" cellpadding="0" cellspacing="0"  width="100%" class="tab-bor" align="center">
+  <tr>
+    <td height="24" align="left"><img src="images/orange-sarrow.gif" width="9" height="9" hspace="4" /> <font class="bold-text">Enter Developer's Password</font>	</td>
+	<td width="5%" align="left"><img src="images/dot-back-arrow.gif" width="5" height="9" hspace="5" /><a href="javascript:history.back();">Back</a></td>
+  </tr>
+  	<tr>
+		<td height="1" class="blue-bg" colspan="2"></td>
+	</tr>
+	{ if (!empty($strMessage))}
+	<tr>
+		<td colspan="2" height="25"  class="error-normal" align="center" valign="middle">{$strMessage}</td>
+	</tr>
+	{/if}
+	<tr>
+		<td colspan="2" height="10"></td>
+	</tr>
+<tr>
+<td colspan="2">
+ <table cellpadding="0" cellspacing="0" border="0" width="100%">
+  <tr height="24">
+    <td align="right"><font class="error-normal">*</font>Developer's Password:</td>
+	<td align="left">&nbsp;{$strPasswordField}</td>
+  </tr> 
+
+  <tr>
+    <td>&nbsp;</td>
+ 	<td align="left">&nbsp;{$strButton}</td>
+</tr>
+ <tr>
+		<td colspan="2" height="10"></td>
+	</tr>
+</table>
+</td>
+</tr>
+</table>
+ </form>
+{literal}
+<script>
+document.getElementById("TaRpas_password").focus();
+</script>
+{/literal} 

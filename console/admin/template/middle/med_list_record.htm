@@ -1,0 +1,96 @@
+<form name="frm_list_record" id="frm_list_record" method="post" action="index.php">
+  <input type="hidden" name="file" id="file"  value="{$strFile}">
+  <input type="hidden" name="hid_button_id" id="hid_button_id"  value="{$strButtonId}">
+  <input type="hidden" name="hid_table_id" id="hid_table_id"  value="{$intTableId}">
+  <input type="hidden" name="hid_page_type" id="hid_page_type"  value="{$strPageType}">
+  <input type="hidden" id="med_delete_url" name="med_delete_url" value="med_action">
+  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="tab-bor">
+    <tr>
+      <td height="24" align="left" valign="middle"><img src="images/orange-sarrow.gif" width="9" height="9" hspace="6" /> <font class="bold-text">{$strModuleName}</font></td>
+    </tr>
+    <tr>
+      <td height="1" class="blue-bg"></td>
+    </tr>
+    { if (!empty($strMessage))}
+    <tr>
+      <td height="25"  class="error-normal" align="center" valign="middle">{$strMessage}</td>
+    </tr>
+    {/if}
+    { if (!empty($strCustomSearch))}
+    <tr>
+      <td  align="right" valign="middle"><table class="qlist" border="0" cellpadding="0" cellspacing="0" width="100%">
+          <tr>
+            <td class="srch"><table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td class="vsrch"><table border="1" cellpadding="0" cellspacing="0">
+                      <tr>
+                      	<td>{$strModule}</td>
+						<td>{$strCustomSearch}</td>
+						<td><input name="smt_submit" value=" Search " class="btn" type="submit"></td>
+					 </tr>
+                    </table></td>
+                </tr>
+              </table></td>
+          </tr>
+        </table></td>
+    </tr>
+    {/if}
+	
+	{if $intTableId	eq "105"}
+	<tr>
+      <td  align="right" valign="middle"><table class="qlist" border="0" cellpadding="0" cellspacing="0" width="100%">
+          <tr>
+            <td class="srch"><table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td class="vsrch"><table border="0" cellpadding="0" cellspacing="0">
+                      <tr>
+                      	<td align="right" valign="top"><font class="blue-text-bold-01">{$Sr_LBL_team_title}</font></td>
+						<td align="left"  valign="top"><font class="normal-text">{$Sr_strteam_title}</font></td>
+						
+						<td align="right" valign="top"><font class="blue-text-bold-01">{$Sr_LBL_status}</font></td>
+						<td align="left"  valign="top"><font class="normal-text">{$Sr_strstatus}</font></td>
+
+                      	<td align="right" valign="top"><font class="blue-text-bold-01">{$Sr_LBL_employee}</font></td>
+						<td align="left"  valign="top"><font class="normal-text">{$Sr_stremployee}</font></td>
+						<td align="left"  valign="bottom"><input name="btn_submit" value="Search" class="btn" onclick="return submit_form(this.form);" type="submit"></td>									
+						<td align="left"  valign="bottom"><input src="images/export.gif" alt="Export to Excel" name="btn_export" value="Export"  type="image" onclick="return exportExcelFile(this.form);" title="Export to Excel"/></td>
+					 </tr>
+                    </table></td>
+                </tr>
+              </table></td>
+          </tr>
+        </table></td>
+    </tr>
+	
+	
+	{/if}
+    <tr>
+      <td height="2" colspan="2"></td>
+    </tr>
+    <tr>
+    
+    <td colspan="2">
+	
+    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+	{if $intTableId	neq "105"}
+      <tr>
+        <td align="right" valign="middle"><font class="blue-text-bold-01">Export to Excel:</font>&nbsp;</td>
+        <td align="left" valign="middle" width="3%"><input src="images/export.gif" alt="Export to Excel" name="btn_export" value="Export"  type="image" onclick="return exportExcelFile(this.form);" title="Export to Excel"/></td>
+	  </tr>
+	{/if}
+      <tr>
+        <td align="center" colspan="2">{$strPage}</td>
+      </tr>
+      {if $intTableId eq 105 and $strPageType eq "L"}
+      <tr>
+        <td align="right"  valign="top" colspan="2"><img src="images/emp_group.gif"  alt="Employees of Group"  title="Employees of Group" align="top"/>&nbsp;Employees of Team&nbsp;</td>
+      </tr>
+      
+      {/if}
+    </table>
+    </td>
+    
+    </tr>
+    
+  </table>
+</form>

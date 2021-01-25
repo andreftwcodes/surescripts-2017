@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Employee Module of Meditab Online Support</title>
+<link href="./images/med_style.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="./images/med_modal_message.css" type="text/css">
+<link rel="stylesheet" href="./images/jquery.cluetip.css" type="text/css">
+{literal}
+<script type="text/javascript" src="./../base/javascript/jquery.min.js"></script>
+<script type="text/javascript" src="./../base/meditab/med_quicklist.js"></script>
+<script type="text/javascript" src="./../base/jsoverlib/overlibmws_iframe.js"></script>
+<script type="text/javascript" src="./../base/javascript/jquery.cluetip.js"></script>
+<script type="text/javascript" src="./../base/javascript/jquery.hoverIntent.js"></script>
+<script type="text/javascript" src="./../base/jsoverlib/overlibmws.js"></script>
+<script type="text/javascript" src="./../base/jsoverlib/overlibmws_iframe.js"></script>
+{/literal}
+</head>
+<form name="frm_rxh_master" id="frm_rxh_master" method="post" action="index.php">
+    <input type="hidden" name="file" id="file"  value="med_rxh_common">
+    <input type="hidden" name="hid_button_id" id="hid_button_id"  value="{$strButtonId}">
+    <input type="hidden" name="hid_table_id" id="hid_table_id"  value="{$intTableId}">
+    <input type="hidden" name="hid_page_type" id="hid_page_type"  value="L">
+    <input type="hidden" name="hid_max_row_limit" id="hid_max_row_limit" value="{$intShowMaxRows}" />
+    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="tab-bor">
+        <tr>
+            <td height="24" align="left" valign="middle"><img src="images/orange-sarrow.gif" width="9" height="9" hspace="6" /> <font class="bold-text">{$strModuleName}</font></td>
+            <td width="10%" align="right"><img src="images/dot-back-arrow.gif" width="5" height="9" hspace="5" /><a href="#" onclick="self.parent.tb_remove();">Close</a>&nbsp;</td>
+        </tr>
+        <tr>
+            <td height="1" class="blue-bg" colspan="2"></td>
+        </tr>
+        { if (!empty($strMessage))}
+        <tr>
+            <td height="25" colspan="2"  class="error-normal" align="center" valign="middle">{$strMessage}</td>
+        </tr>
+        {/if}
+        <tr>
+            <td height="2" colspan="2"></td>
+        </tr>
+        <tr>
+            <td  align="right" valign="middle" colspan="2" ><table  border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tr>
+                        <td class="srch"><table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td class="vsrch"><table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                            
+                                            <tr>
+                                                <td align="right"><table border="0" cellpadding="1" cellspacing="1">
+                                                        <tr>
+															<!-- Filter Box -->
+                                                        </tr>
+                                                    </table></td>
+                                            </tr>
+                                        </table></td>
+                                </tr>
+                            </table></td>
+                    </tr>
+                </table></td>
+        </tr>
+        <tr>
+            <td colspan="2"><table width="100%" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td align="center" colspan="2">{$strPage}</td>
+                    </tr>
+                    <tr>
+                        <td align="right"  valign="top" colspan="2"><!-- IMAGE DESC -->
+                        </td>
+                    </tr>
+                </table></td>
+        </tr>
+    </table>
+	
+</form>
+{literal}
+<script>
+function extraSearchValid()
+{
+	if(checkRowLimit(document.getElementById("Sr_Intxt_show_rows"),document.getElementById("hid_max_row_limit").value) == false)
+		return false;
+}
+$(document).ready(function(){
+	$("a[class^='report_summary']").each(function(i)
+	{
+		$(this).cluetip({
+		cluetipClass: 'jtip',
+		width:'480px',
+		height: '200px',
+		sticky: true,
+		dropShadow: false,
+		closePosition: 'title',  
+		topOffset:'0px',
+		waitImage:true,
+		arrows: true,
+		positionBy: 'bottomTop',
+		closeText: '<img src="./images/cross.png" alt="close" />'		
+		});
+	});
+});
+</script>
+{/literal}

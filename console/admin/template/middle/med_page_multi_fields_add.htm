@@ -1,0 +1,223 @@
+<form name="frm_add_record" id="frm_add_record" method="post" action="index.php" >
+ <input type="hidden" name="file" value="med_page_multi_list" />	
+  <input type="hidden" name="hid_table_id" id="hid_table_id"  value="{$intTableId}">
+  <input type="hidden" name="hid_page_type" id="hid_page_type"  value="{$strPageType}">
+  <input type="hidden" name="hidin_table_id" id="hidin_table_id"  value="{$intTableId}">
+  <input type="hidden" name="hid_table_multi_id" id="hid_table_multi_id"  value="{$intId}">
+   <table border="0" cellpadding="0" cellspacing="0"  width="100%" class="tab-bor" align="center">
+       <tr><td>	
+	 <table width="100%" cellpadding="0" cellspacing="0" border="0" align="center" bordercolor="#ff0000">
+      <td align="left" height="24" width="45%"><img src="images/orange-sarrow.gif" width="9" height="9" hspace="4" /><span class="bold-text"><span onclick="gotoPageSetting();">Page Settings:</span>&nbsp;{$strModuleName}<span></td>
+	  <td width="47%" align="right" height="24"><a href="index.php?file=med_page_listings&hid_page_type=L&hidin_module_id=0"> All Tables</a>&nbsp;| <a href="index.php?file=med_page_add&hidin_module_id=0&table_id={$intTableId}&hid_table_id={$intTableId}&parent_id={$intParentId}&hid_page_type=E">View Table</a>&nbsp;|
+	  <a href="index.php?file=med_page_multi_list&hid_page_type=L&hid_table_id={$intTableId}&parent_id={$intParentId}&hidin_module_id=0&strLeftId={$strLeftId}">View Multi</a>&nbsp;|
+      <a href="index.php?file=med_page_fields_listings&hid_page_type=L&hid_table_id={$intTableId}&parent_id={$intParentId}&hidin_module_id=0&strLeftId={$strLeftId}">View Fields</a>&nbsp;|
+      <a href="index.php?file=med_page_buttons_listings&hid_page_type=L&hid_table_id={$intTableId}&parent_id={$intParentId}&hidin_module_id=0&strLeftId={$strLeftId}">View Buttons</a>&nbsp;|
+	  <a href="index.php?file=med_page_search_listings&hid_page_type=L&hid_table_id={$intTableId}&parent_id={$intParentId}&hidin_module_id=0&strLeftId={$strLeftId}">View Search</a>	  </td>
+      <td width="8%" align="right"><img src="images/dot-back-arrow.gif" width="5" height="9" hspace="5" /><a href="javascript:history.back();">Back</a>&nbsp;</td>
+	  </table>
+	  </td>
+    </tr>
+    <tr>
+      <td height="1" class="blue-bg" colspan="2"></td>
+    </tr>
+    { if (!empty($strMessage))}
+    <tr>
+      <td colspan="2" height="25"  class="error-normal" align="center" valign="middle">{$strMessage}</td>
+    </tr>
+    {/if}
+    <tr>
+      <td colspan="2" align="left"><table width="96%" border="0" cellspacing="0" cellpadding="0" align="center">
+          <tr>
+            <td height="8"></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="center"><fieldset>
+              <legend>Table Parameter:</legend>
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" align="center" bordercolor="#ff0000">
+				<tr>
+				<td colspan="10" height="10"></td>
+				</tr>
+				<tr>
+					<td align="right" valign="middle" height="24" colspan="4" width="10%">Page Title:&nbsp;</td>
+			  	  <td width="17%" align="left" valign="middle"><input type="text" name="page_title" value="{$rsTableMulti[0].page_title}"  class="comn-input"/></td>
+				   	<td width="6%" height="24" align="right" valign="middle">Search:</td>
+			   	  <td width="4%" align="left" valign="middle"><input type="checkbox" name="issearch" value="1" "{if $rsTableMulti[0].issearch}" checked="checked" "{/if}" /></td>
+                  	<td width="10%" height="25" align="right" valign="middle">Alpha search:</td>
+                  <td width="4%" align="left" valign="middle"><input type="checkbox" name="isalpha" value="1" "{if $rsTableMulti[0].isalpha}" checked="checked" "{/if}"/></td>
+                  	<td width="5%" height="21" align="right" valign="middle">Paging:</td>
+               	  <td width="3%" align="left" valign="middle"><input type="checkbox" name="ispaging" value="1" "{if $rsTableMulti[0].ispaging}" checked="checked" "{/if}"/></td>
+                  	<td width="6%" height="21" align="right" valign="middle" >Selector:</td>
+               	  <td width="3%" align="left" valign="middle"> <input type="checkbox" name="isselector" value="1" "{if $rsTableMulti[0].isselector}" checked="checked" "{/if}" /></td>
+				  	<td width="4%" height="21" align="right" valign="middle" >Sort:</td>
+               	  <td width="3%" align="left" valign="middle"> <input type="checkbox" name="issort" value="1" "{if $rsTableMulti[0].issort}" checked="checked" "{/if}" /></td>
+				  	<td width="12%" height="21" align="right" valign="middle" >Column heading:</td>
+               	  <td width="6%" align="left" valign="middle"> <input type="checkbox" name="iscolumnheading" value="1" "{if $rsTableMulti[0].iscolumnheading}" checked="checked" "{/if}" /></td>
+                </tr>
+				<tr>
+				<td colspan="10" height="10"></td>
+				</tr>
+              </table>
+              </fieldset></td>
+          </tr>
+        </table></td>
+    </tr>
+    <tr>
+      <td colspan="2" align="left">&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="2" align="left">
+	  <table cellpadding="0" cellspacing="0" border="0" width="96%" align="center">
+	  <tr>
+	  <td>&nbsp;</td>
+	  </tr>
+	  <tr>
+	  <td>
+	   <fieldset>
+        <legend>Fields Parameter:</legend>
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" align="center" bordercolor="#FF0000">
+          <tr>
+		  {section name=fields loop=$rsFields}
+            <td align="right" valign="middle" height="24" >
+			<input type="checkbox" name="fields[]" value="{$rsFields[fields].id}"
+			"
+			{section name=fieldscheck  loop=$intFieldsId}
+				 {if $rsFields[fields].id == $intFieldsId[fieldscheck]}	
+			"
+				checked="checked"
+			"	 
+			{/if}
+			{/section}	
+			"
+			/>
+			
+			</td>
+			<td align="left" valign="middle" height="24" >{$rsFields[fields].field_referal}</td>
+			    {if not ($smarty.section.fields.rownum mod 5)}
+                {if not $smarty.section.fields.last}
+				</tr>
+			<tr>
+                {/if}
+			 {/if}	
+			{sectionelse}	 
+		  	<tr><td align="center" colspan="2"> Record Not Founds.</td></tr> 
+		  {/section} 
+          </tr>
+        </table>
+        </fieldset></td>
+    </tr>
+	</table>
+	</td>
+	</tr>
+	<tr>
+      <td colspan="2">&nbsp;</td>
+    </tr>
+	<tr>
+	<td colspan="2" align="left">
+	<table cellpadding="0" cellspacing="0" width="96%" border="0" align="center">
+    <tr>
+      <td><fieldset>
+        <legend>Buttons Parameter:</legend>
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" align="center" bordercolor="#FF0000">
+          <tr>
+		  {section name=buttons loop=$rsButtons}
+            <td align="right" valign="middle" height="24" width="6%"  >
+			<input type="checkbox" name="button[]" value="{$rsButtons[buttons].id}"
+			"
+			{section name=buttoncheck  loop=$intButtonId}
+				 {if $rsButtons[buttons].id == $intButtonId[buttoncheck]}	
+			"
+				checked="checked"
+			"	 
+			{/if}
+			{/section}	
+			"
+			 /></td>
+			<td align="left" valign="middle" height="24" >{$rsButtons[buttons].page_type}</td>
+			    {if not ($smarty.section.buttons.rownum mod 5)}
+                {if not $smarty.section.buttons.last}
+				</tr>
+			<tr>
+                {/if}
+			 {/if}	
+		  {sectionelse}	 
+		  	<tr><td align="center" colspan="2"> Record Not Founds.</td></tr>
+		  {/section} 
+          </tr>
+		  </table>
+		  </fieldset>
+		  </td>
+		  </tr>
+        </table>
+       </td>
+    </tr>
+  <tr>
+    <td colspan="2" height="10"></td>
+  </tr>
+  <tr>
+    <td align="center" colspan="2"><input type='submit' name='smt_submit' value='Submit' onclick='extraValid();' class='btn' /></td>
+  </tr>
+  <tr>
+    <td colspan="2" height="10" ></td>
+  </tr>
+  </table>
+   <input type="hidden" name="h_issearchid" id="h_issearchid"  value="">
+  <input type="hidden" name="h_isalphaid" id="h_isalphaid"  value="">
+  <input type="hidden" name="h_ispagingid" id="h_ispagingid"  value="">
+  <input type="hidden" name="h_isselectorid" id="h_isselectorid"  value="">
+  <input type="hidden" name="h_issortid" id="h_issortid"  value="">
+  <input type="hidden" name="h_iscolumnheadingid" id="h_iscolumnheadingid"  value="">
+  
+</form>
+
+{literal}
+<script language="javascript">
+function extraValid()
+{
+	var str=document.frm_add_record;
+	if(str.issearch.checked == false){
+		str.h_issearchid.value = "0";
+	}
+	else{
+		str.h_issearchid.value = "1";
+	}
+	
+	if(str.isalpha.checked == false){
+		str.h_isalphaid.value = "0";
+	}
+	else{
+		str.h_isalphaid.value = "1";
+	}
+	
+	if(str.ispaging.checked == false){
+		str.h_ispagingid.value = "0";
+	}
+	else{
+		str.h_ispagingid.value = "1";
+	}
+
+	if(str.isselector.checked == false){
+		str.h_isselectorid.value = "0";
+	}
+	else{
+		str.h_isselectorid.value = "1";
+	}
+
+	if(str.issort.checked == false){
+		str.h_issortid.value = "0";
+	}
+	else{
+		str.h_issortid.value = "1";
+	}
+	if(str.iscolumnheading.checked == false){
+		str.h_iscolumnheadingid.value = "0";
+	}
+	else{
+		str.h_iscolumnheadingid.value = "1";
+	}
+
+}
+</script>
+{/literal}

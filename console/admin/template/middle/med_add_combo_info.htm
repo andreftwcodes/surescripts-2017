@@ -1,0 +1,142 @@
+<form name="frm_add_combo_info" id="frm_add_combo_info" method="post" action="index.php">
+<input type="hidden" name="file" id="file" value="med_combo_info_action" />
+<input type="hidden" name="hid_button_id" id="hid_button_id"  value="{$strButtonId}">
+<input type="hidden" name="hid_table_id" id="hid_table_id"  value="{$intTableId}">
+<input type="hidden" name="hid_page_type" id="hid_page_type"  value="{$strPageType}">
+<input type="hidden" name="hid_generateRows" id="hid_generateRows" value="{$intGenerateRows}" />
+<input type="hidden" name="parent_id" id="parent_id" value="{$intParentId}" />
+{$strcombo_id}
+{$strEXTRA_FIELD_VALIDATION}
+<script language="javascript" src="./base/med_combo_info.js"></script>
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="tab-bor">
+      <tr>
+        <td height="24" align="left" valign="middle"><img src="images/orange-sarrow.gif" width="9" height="9" hspace="6" /> <font class="bold-text">{$strModuleName}: {if $strcase_title ne ""}{$strcase_title}{else}Add Combo{/if}</font></td>
+		<td width="5%" align="left"><img src="images/dot-back-arrow.gif" width="5" height="9" hspace="5" /><a href="javascript:history.back();">Back</a></td>
+      </tr>
+	  <tr>
+		<td height="1" class="blue-bg" colspan="2"></td>
+	  </tr>
+	 { if (!empty($strMessage))}
+	<tr>
+		<td colspan="2" height="25"  class="error-normal" align="center" valign="middle">{$strMessage}</td>
+	</tr>
+	{/if}
+	  <tr>
+	  <td height="2" colspan="2"></td>
+	 </tr>
+	<tr>
+        <td colspan="2"><table width="100%" border="0" cellpadding="1" cellspacing="1" class="qlist">
+		<tr>
+			  <td width="21%" align="right">{$LBL_case_name}</td>
+			  <td align="left" colspan="3">{$strcase_name}</td>
+		</tr>	 
+		<tr>
+			  <td width="21%" align="right" valign="top">{$LBL_query}</td>
+			  <td align="left" colspan="3">{$strquery}<img src="{$IMAGE_PATH}zoom.gif" border="0" onclick="zoomIn('index.php?file=med_zoom&ControlFlag=0',
+				'{$LBL_query}','Taara_query',500,500);" class="help" alt="Zoom"></td>
+		</tr>
+		<tr>
+			 <td width="21%" align="right" valign="top">{$LBL_key_column}</td>
+			  <td align="left" colspan="3">{$strkey_column}</td>
+		</tr>
+		<tr>
+			  <td width="21%" align="right" valign="top">{$LBL_value_column}</td>
+			  <td align="left" colspan="3">{$strvalue_column}</td>
+		</tr>
+		<tr>
+			  <td width="21%" align="right" valign="top">{$LBL_combo_notes}</td>
+			  <td align="left" colspan="3">{$strcombo_notes}</td>
+		</tr>
+       </table></td>
+      </tr>
+		 
+	  <tr>
+	  <td height="2" colspan="2">&nbsp;</td>
+	 </tr>
+
+<tr><td colspan="2">
+<table width=100% id=list32 cellpadding=0 cellspacing=0 border=0 class=qlist>
+
+<tr><td class=srch></td></tr>
+<tr><td class=lst align="center">
+	<table border=0 cellpadding=0 cellspacing=0 width="80%" align="center" id="tblGenerateRow">
+	<tr>
+      <td height="24" align="left" valign="middle">&nbsp;&nbsp;&nbsp;<font class="bold-text">Combo Detail</font></td>
+	  <td align="right" colspan="3">
+	   <font class="blue-text-bold-01">Number of Rows:</font>
+	   <input type="text" name="txt_generate_rows" id="txt_generate_rows" maxlength="2" class="comn-input" size="5" value="{$intNewRows}">
+	   <input name="btn_submit" value="Go" class="btn" type="button" title="Go" alt="Go" onclick='return generateComboDetail();' />
+	 </td> 
+    </tr>
+
+		<tr class="hdr">
+			<td width=40% align="left">Key</td>
+			<td width=40% align="left">Key Value</td>
+			<td width=10% align="center">Seq. No.</td>
+			<td width=10% align="center">Position</td>
+		</tr>
+		{section name=intTotCombo loop=$intGenerateRows}
+		{if $smarty.section.intTotCombo.index is not even}
+			{assign var='tdclass' value="data2"}
+		{else}
+			{assign var='tdclass' value="data1"}
+		{/if}
+		
+		<tr class='{$tdclass}' onmouseover='QL_MOver(this)' onmouseout='QL_MOut(this)' >
+		{assign var='request_key' value="Mltxt_"|cat:$smarty.section.intTotCombo.index|cat:"_key"}
+		{assign var='request_key_value' value="Mltxt_"|cat:$smarty.section.intTotCombo.index|cat:"_key_value"}
+		{assign var='request_seq_no' value="Mltxt_"|cat:$smarty.section.intTotCombo.index|cat:"_seq_no"}
+		{assign var='request_ position' value="Mltxt_"|cat:$smarty.section.intTotCombo.index|cat:"_ position"}
+		{if $smarty.request.$request_key eq ''}
+		
+			<td align="left">
+				<input type="text" name="Mltxt_{$smarty.section.intTotCombo.index}_key" id="Mltxt_{$smarty.section.intTotCombo.index}_key" class="comn-input" size="30"  value="{$arrComboDetail[intTotCombo].key}">
+			</td>
+			<td align="left">
+				<input type="text" name="Mltxt_{$smarty.section.intTotCombo.index}_key_value" id="Mltxt_{$smarty.section.intTotCombo.index}_key_value" class="comn-input" size="30" value="{$arrComboDetail[intTotCombo].key_value}" >				
+			</td>
+			<td align="center">
+				<input type="text" name="Mltxt_{$smarty.section.intTotCombo.index}_seq_no" id="Mltxt_{$smarty.section.intTotCombo.index}_seq_no" maxlength="2" class="comn-input" size="5" value="{$arrComboDetail[intTotCombo].seq_no}" >
+			</td>
+			<td align="center">
+				<input type="text" name="Mltxt_{$smarty.section.intTotCombo.index}_position" id="Mltxt_{$smarty.section.intTotCombo.index}_position" maxlength="1" class="comn-input" size="5" value="{$arrComboDetail[intTotCombo].position}" >
+			</td>
+		{else}
+			<td align="left">
+				<input type="text" name="Mltxt_{$smarty.section.intTotCombo.index}_key" id="Mltxt_{$smarty.section.intTotCombo.index}_key" class="comn-input" size="30"  value="{$smarty.request.$request_key}">
+			</td>
+			<td align="left">
+				<input type="text" name="Mltxt_{$smarty.section.intTotCombo.index}_key_value" id="Mltxt_{$smarty.section.intTotCombo.index}_key_value" class="comn-input" size="30" value="{$smarty.request.$request_key_value}" >				
+			</td>
+			<td align="center">
+				<input type="text" name="Mltxt_{$smarty.section.intTotCombo.index}_seq_no" id="Mltxt_{$smarty.section.intTotCombo.index}_seq_no" maxlength="2" class="comn-input" size="5" value="{$smarty.request.$request_seq_no}" >
+			</td>
+			<td align="center">
+				<input type="text" name="Mltxt_{$smarty.section.intTotCombo.index}_position" id="Mltxt_{$smarty.section.intTotCombo.index}_position" maxlength="1" class="comn-input" size="5" value="{$smarty.request.$request_position}" >
+			</td>
+			
+		{/if}	
+		
+		</tr>
+		{/section}		
+		<tr>
+			<td colspan="4"> 
+				<div id="rowgenerate"></div>
+			</td>
+		</tr> 
+</table></td></tr>
+
+
+   <tr>
+	<td colspan="2">
+	<table width="100%" border="0" cellpadding="1" cellspacing="1" class="qlist">
+		<tr>		   
+			<td align="center" style="padding-left:20%">&nbsp;<input type="submit" name="submit" id="submit" value="Submit" class="btn" border="0" onclick='return submit_form(this.form);'/></td>
+			<td align="right" width="20%" style="padding-right:10%"> <font class="red-text">* Required Seq.No.</font></td>			 
+		</tr>		
+		</table></td>
+  </tr>	  
+</table>
+</td></tr>
+</table>
+</form>

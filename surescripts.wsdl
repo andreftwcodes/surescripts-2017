@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xs="http://www.surescripts.com/messaging"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="surescripts"
+	targetNamespace="http://www.surescripts.com/messaging">
+	<wsdl:types>
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			targetNamespace="http://www.surescripts.com/messaging">
+			<!-- START: SURESCRIPTS DEFINED COMPLEX TYPES -->
+			<!-- START: BASIC SURESCRIPT DATATYPES -->
+		<xsd:simpleType name="MailAddressType">
+        	<xsd:restriction base="an..80M">
+         	 <xsd:pattern value="mailto:(((\d{10}|\d{13}).(spi|npi))|((\d{7}).(ncpdp))|(([a-zA-Z0-9].*).(tp))|(([azA-Z0-9]{6}).(dp)))@surescripts.com" />
+        	</xsd:restriction>
+        </xsd:simpleType>
+      <xsd:simpleType name="DateType">
+        <xsd:restriction base="an..35">
+          <xsd:pattern value="((18|19|20)\d{2})(((0[1-9]|1[0-2])(0[1-9]|[12][0-9]))|(((0[13-9])|(1[0-2]))30)|((0[13578]|1[02])31))" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="UtcDateType">
+        <xsd:restriction base="an..35M">
+          <xsd:pattern value="((19|20)\d{2})-(((0[1-9]|1[0-2])-(0[1-9]|[12][0-9]))|(((0[13-9])|(1[0-2]))-30)|((0[13578]|1[02])-31))T(([0-1]\d)|(2[0-4])):([0-5]\d):([0-5]\d)(.\d|.|)Z" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="nM">
+        <xsd:restriction base="anM">
+          <xsd:pattern value="[0-9]+(\.|)[0-9]*" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="n..2M">
+        <xsd:restriction base="nM">
+          <xsd:maxLength value="2" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="n..3M">
+        <xsd:restriction base="nM">
+          <xsd:maxLength value="3" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="n..15M">
+        <xsd:restriction base="nM">
+          <xsd:maxLength value="15" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="anM">
+        <xsd:restriction base="xsd:string">
+          <xsd:pattern value="([!-~]|[ ])*[!-~]([!-~]|[ ])*" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="an">
+        <xsd:restriction base="xsd:string">
+          <xsd:pattern value="[ !-~]*" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="an..3">
+        <xsd:restriction base="an">
+          <xsd:maxLength value="3" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="an..3M">
+        <xsd:restriction base="anM">
+          <xsd:maxLength value="3" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="an..7M">
+        <xsd:restriction base="anM">
+          <xsd:maxLength value="7" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="an..9M">
+        <xsd:restriction base="anM">
+          <xsd:maxLength value="9" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="an..10">
+        <xsd:restriction base="an">
+          <xsd:maxLength value="10" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="an..11M">
+        <xsd:restriction base="anM">
+          <xsd:maxLength value="11" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="an..13M">
+        <xsd:restriction base="anM">
+          <xsd:maxLength value="13" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="an..17">
+        <xsd:restriction base="an">
+          <xsd:maxLength value="17" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="an..17M">
+        <xsd:restriction base="anM">
+          <xsd:maxLength value="17" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="an..25M">
+        <xsd:restriction base="anM">
+          <xsd:maxLength value="25" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="an..35">
+        <xsd:restriction base="an">
+          <xsd:maxLength value="35" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="an..35M">
+        <xsd:restriction base="anM">
+          <xsd:maxLength value="35" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="an..70">
+        <xsd:restriction base="an">
+          <xsd:maxLength value="70" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="an..70M">
+        <xsd:restriction base="anM">
+          <xsd:maxLength value="70" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="an..80">
+        <xsd:restriction base="an">
+          <xsd:maxLength value="80" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="an..80M">
+        <xsd:restriction base="anM">
+          <xsd:maxLength value="80" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="an..105">
+        <xsd:restriction base="an">
+          <xsd:maxLength value="105" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="an..105M">
+        <xsd:restriction base="anM">
+          <xsd:maxLength value="105" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="an..140">
+        <xsd:restriction base="an">
+          <xsd:maxLength value="140" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="an..210">
+        <xsd:restriction base="an">
+          <xsd:maxLength value="210" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="an..264">
+        <xsd:restriction base="an">
+          <xsd:maxLength value="264" />
+        </xsd:restriction>
+      </xsd:simpleType>
+			<!-- END: BASIC SURESCRIPTS DATATYPES -->
+			<xsd:simpleType name="VersionIDType">
+			<xsd:restriction base="an">
+			<xsd:pattern value="(1|2|3|4)" />
+			</xsd:restriction>
+			</xsd:simpleType>
+			
+			<xsd:simpleType name="DateType">
+			<xsd:restriction base="an..35">
+			<xsd:pattern value="((18|19|20)\d{2})(((0[1-9]|1[0-2])(0[1-9]|[12][0-9]))|(((0[13-9])|(1[0-
+			2]))30)|((0[13578]|1[02])31))" />
+			</xsd:restriction>
+			</xsd:simpleType>
+			
+			<xsd:complexType name="TaxonomyType">
+			<xsd:sequence>
+			<xsd:element name="TaxonomyCode" minOccurs="1" maxOccurs="1">
+			<xsd:simpleType>
+			<xsd:restriction base="xs:string">
+			<xsd:pattern value="193200000X|183500000X" />
+			</xsd:restriction>
+			</xsd:simpleType>
+			</xsd:element>
+			</xsd:sequence>
+			</xsd:complexType>
+			<!-- END: SURESCRIPTS DEFINED COMPLEX TYPES -->
+			<xsd:element name="DirectoryDownload">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="AccountID" minOccurs="1" maxOccurs="1" type="an..35" />
+						<xsd:element name="VersionID" minOccurs="1" maxOccurs="1" type="VersionIDType" />
+						<xsd:element name="Taxonomy" minOccurs="1" maxOccurs="1" type="TaxonomyType" />
+						<xsd:element name="DirectoryDate" minOccurs="0" maxOccurs="1" type="DateType" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="DirectoryDownloadResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="URL" minOccurs="1" maxOccurs="1" type="an..210" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="GetPrescriber">
+				<xsd:complexType>
+					<xsd:sequence>
+
+						<xsd:element name="Header" type="xs:HeaderType"></xsd:element>
+						<xsd:element name="Body"
+							type="xsd:string">
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="GetPrescriberResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+
+						<xsd:element name="out" type="xsd:string"></xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		
+            <xsd:complexType name="HeaderType">
+            <xsd:sequence>
+				<xsd:element name="To" minOccurs="1" maxOccurs="1"
+					type="MailAddressType" />
+				<xsd:element name="From" minOccurs="1" maxOccurs="1" type="MailAddressType" />
+				<xsd:element name="MessageID" minOccurs="1" maxOccurs="1" type="an..35M" />
+				<xsd:element name="RelatesToMessageID" minOccurs="0" maxOccurs="1" type="an..35" />
+				<xsd:element name="SentTime" minOccurs="1" maxOccurs="1" type="UtcDateType" />
+				<xsd:element name="Security" minOccurs="0" maxOccurs="1" type="SecurityType" />
+			</xsd:sequence>
+            </xsd:complexType>
+        </xsd:schema>
+	</wsdl:types>
+
+	<wsdl:message name="DirectoryDownloadRequest">
+		<wsdl:part name="parameters" element="xs:DirectoryDownload"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="DirectoryDownloadResponse">
+		<wsdl:part name="parameters" element="xs:DirectoryDownloadResponse"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="GetPrescriberRequest">
+		<wsdl:part name="parameters" element="xs:GetPrescriber"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="GetPrescriberResponse">
+		<wsdl:part name="parameters" element="xs:GetPrescriberResponse"></wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="surescripts">
+
+        <wsdl:operation name="DirectoryDownload">
+        	<wsdl:input message="xs:DirectoryDownloadRequest"></wsdl:input>
+        	<wsdl:output message="xs:DirectoryDownloadResponse"></wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetPrescriber">
+        	<wsdl:input message="xs:GetPrescriberRequest"></wsdl:input>
+        	<wsdl:output message="xs:GetPrescriberResponse"></wsdl:output>
+        </wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="surescriptsSOAP" type="xs:surescripts">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="DirectoryDownload">
+			<soap:operation
+				soapAction="http://localhost/meditabserver/virtual_surescript_server.php/DirectoryDownload" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="surescripts">
+		<wsdl:port binding="xs:surescriptsSOAP"
+			name="surescriptsSOAP">
+			<soap:address
+				location="http://localhost/meditabserver/virtual_surescript_server.php" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

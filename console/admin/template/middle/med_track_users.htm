@@ -1,0 +1,71 @@
+{literal}
+<script type="text/javascript" src="./base/med_emp_hrs.js"></script>
+{/literal}
+<form name="frm_list_record" id="frm_list_record" method="post" action="index.php">
+  <input type="hidden" name="file" id="file"  value="med_track_users">
+  <input type="hidden" name="hid_button_id" id="hid_button_id"  value="{$strButtonId}">
+  <input type="hidden" name="hid_table_id" id="hid_table_id"  value="{$intTableId}">
+  <input type="hidden" name="hid_page_type" id="hid_page_type"  value="{$strPageType}">
+  <input type="hidden" name="hid_paging" id="hid_paging" value="1"/>
+  <input type="hidden" name="hid_max_row_limit" id="hid_max_row_limit" value="{$intShowMaxRows}" />
+  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="tab-bor">
+    <tr>
+      <td><table cellpadding="0" cellspacing="0" border="0" width="100%">
+          <tr>
+            <td height="24" align="left" valign="middle"><img src="images/orange-sarrow.gif" width="9" height="9" hspace="6" /> <font class="bold-text">{$strTitle}</font></td>
+          </tr>
+        </table></td>
+    </tr>
+    <tr>
+      <td height="1" class="blue-bg"></td>
+    </tr>
+    { if (!empty($strMessage))}
+    <tr>
+      <td colspan="2" height="25"  class="error-normal" align="center" valign="middle">{$strMessage}</td>
+    </tr>
+    {/if}
+    <tr>
+      <td height="2"></td>
+    </tr>
+    <tr>
+      <td align="center" valign="middle"> {include file=$strSearchFile} </td>
+    </tr>
+    <tr>
+      <td align="right" valign="top"><table cellpadding="1" cellspacing="1" border="0" align="right" width="100%">
+          <tr>
+            <td align="right" valign="middle" width="5%"><font class="blue-text-bold-01">{$Sr_LBL_show_rows}</font></td>
+            <td align="left" valign="middle" width="9%">{$Sr_strshow_rows}&nbsp;row(s)</td>
+            <td align="right" valign="middle" width="4%"><font class="blue-text-bold-01">{$Sr_LBL_from}</font></td>
+            <td align="left" valign="middle" width="23%">{$Sr_strfrom}</td>
+            <td align="right" valign="middle" width="2%"><font class="blue-text-bold-01">{$Sr_LBL_to}</font></td>
+            <td align="left" valign="middle" width="23%">{$Sr_strto}</td>
+            <td align="right" valign="middle" width="5%"><font class="blue-text-bold-01">{$Sr_LBL_group_by}</font></td>
+            <td align="left" valign="middle" width="6%">{$Sr_strgroup_by}</td>
+            <td align="right" valign="middle" width="4%"><font class="blue-text-bold-01">{$Sr_LBL_valid_user}</font></td>
+            <td align="left" valign="middle" width="2%">{$Sr_strvalid_user}</td>
+            <td align="right" valign="middle" width="4%"><input name="smt_submit" value="Search" class="btn" type="submit" onclick='return submit_form(this.form);'></td>
+            <td align="right" valign="middle" width="4%"><input name="btn_print" value="Print" class="btn" type="button" onClick="return printReport(this.form,'med_emp_work_less');"></td>
+            <td align="left" valign="middle" width="3%"><input src="images/export.gif" alt="Export to Excel" name="btn_export" value="Export"  type="image" onclick="return exportExcelFile(this.form);" /></td>
+          </tr>
+        </table></td>
+    </tr>
+    {if $strPage neq '' }
+    <tr>
+      <td><table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+          <tr>
+            <td align="center" valign="top">{$strPage}</td>
+          </tr>
+        </table></td>
+    </tr>
+    {/if}
+  </table>
+</form>
+{literal}
+<script>
+function extraValid()
+{
+	if(checkRowLimit(document.getElementById("Sr_Intxt_show_rows"),document.getElementById("hid_max_row_limit").value) == false)
+		return false;
+}
+</script>
+{/literal}
