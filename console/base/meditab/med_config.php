@@ -24,7 +24,7 @@ define("DB_PASSWORD","ss2017staging12345");
 
 
 // define("DB_HOST","ipssurescript.ctpjxvfogk4x.us-east-1.rds.amazonaws.com");
-define("DB_HOST","aa70vm6lip8c08.c8ttplenlxn1.ap-southeast-1.rds.amazonaws.com");
+define("DB_HOST","aayw1kqk39cqjr.c8ttplenlxn1.ap-southeast-1.rds.amazonaws.com");
 
 
 define("DSN_MEM","meditab_server_106");
